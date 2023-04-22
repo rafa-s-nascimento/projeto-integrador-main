@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <link rel="stylesheet" href="./css/comum.css" />
+        <link rel="stylesheet" href="./css/cadastrar-produto.css" />
+        <script
+            src="https://kit.fontawesome.com/162b81ecbe.js"
+            crossorigin="anonymous"
+        ></script>
+        <title>Alura Geek</title>
+    </head>
+    <body>
+        <header>
+            <div class="topo">
+                <div class="container">
+                    <a href="/">
+                        <img src="./img/Logo.png" alt="" class="logo" />
+                    </a>
+                    <div class="container-input">
+                        <a href="/login" class="link-login-btn"
+                            ><button class="login-btn btn">Login</button></a
+                        >
+
+                        <a class="perfil-data" href="/gerenciar">
+                            <article>
+                                <img
+                                    src="./img/avatar1.png"
+                                    alt=""
+                                    class="perfil-avatar img"
+                                />
+                                <h5 class="perfil-nome titulo">usuario1354</h5>
+                            </article>
+                        </a>
+
+                        <div class="div-input">
+                            <input
+                                type="text"
+                                maxlength="35"
+                                placeholder="O que deseja encontrar?"
+                            />
+                            <button>
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <main>
+            <div class="container">
+                <div class="form-container">
+                    <form action="#" class="form">
+                        <div>
+                            <label for="nome">Nome/Titulo do produto</label>
+                            <input
+                                class="nome nome-input"
+                                name="nome"
+                                type="text"
+                                maxlength="50"
+                                required
+                            />
+                        </div>
+
+                        <div>
+                            <label for="intencao">Qual a sua intenção?</label>
+                            <select
+                                name="intencao"
+                                id=""
+                                required
+                                class="intencao-input"
+                            >
+                                <option value="doar">Doar</option>
+                                <option value="trocar">Trocar</option>
+                            </select>
+                        </div>
+
+                        <p>Selecione a opção em o produto melhor se encaixa</p>
+
+                        <div>
+                            <label for="categoria">Categoria</label>
+                            <select
+                                name="categoria"
+                                id=""
+                                required
+                                class="categoria-input"
+                            >
+                                <option class="option" value="educacional">
+                                    Educacional
+                                </option>
+                                <option value="entretenimento">
+                                    Entretenimento
+                                </option>
+                                <option value="outros">Outros</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="tipo">Tipo</label>
+                            <select
+                                name="tipo"
+                                id=""
+                                required
+                                class="tipo-input"
+                            >
+                                <option value="livro">Livro</option>
+                                <option value="material">Material</option>
+                                <option value="artes">Artes</option>
+                                <option value="outros">Outros</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="condicao">Condição</label>
+                            <select
+                                name="condicao"
+                                id=""
+                                required
+                                class="condicao-input"
+                            >
+                                <option value="excelente">Excelente</option>
+                                <option value="boa">Boa</option>
+                                <option value="normal">Normal</option>
+                                <option value="velho">Velho</option>
+                                <option value="avariado">Avariado</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="descricao">Descrição</label>
+                            <textarea
+                                class="descricao descricao-input"
+                                name="descricao"
+                                maxlength="300"
+                                required
+                            ></textarea>
+                        </div>
+
+                        <div class="container-img">
+                            <label for="img"
+                                >Adicione uma ou mais imagens do produto</label
+                            >
+                            <input
+                                class="img img-input"
+                                name="img"
+                                type="file"
+                                multiple
+                                required
+                            />
+                        </div>
+
+                        <div>
+                            <label for="visivel"
+                                >Deixar o produto visível?</label
+                            >
+                            <input
+                                class="checkbox visivel-input"
+                                type="checkbox"
+                                checked
+                            />
+                        </div>
+
+                        <button type="button" class="cadastrar-btn btn">
+                            Cadastrar
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </main>
+        <footer>
+            <div class="info-contato">
+                <div class="container">
+                    <div class="container-info-list">
+                        <img src="./img/Logo.png" alt="" />
+                        <ul>
+                            <li><a href="#">Quem somos nós</a></li>
+                            <li><a href="#">Anuncie aqui</a></li>
+                        </ul>
+                    </div>
+                    <div class="container-info-form">
+                        <p class="bold titulo">fale conosco</p>
+                        <form action="#">
+                            <div class="single-input">
+                                <input
+                                    type="text"
+                                    id="name"
+                                    maxlength="50"
+                                    required
+                                />
+                                <label for="name">Nome</label>
+                            </div>
+
+                            <textarea
+                                id="message"
+                                placeholder="Escreva sua mensagem"
+                                maxlength="200"
+                            ></textarea>
+
+                            <button class="btn" type="submit">
+                                Enviar Mensagem
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="rodape">
+                <p>
+                    Desenvolvido por Rafael Nascimento
+                    <span id="data">0000</span>
+                </p>
+                <div>
+                    <a
+                        href="https://github.com/Rafa-S-Nascimento"
+                        target="_blank"
+                    >
+                        <i class="fa-brands fa-github"></i>
+                    </a>
+                    <a
+                        href="https://www.linkedin.com/in/rafael-s-nascimento/"
+                        target="_blank"
+                    >
+                        <i class="fa-brands fa-linkedin"></i>
+                    </a>
+                </div>
+            </div>
+        </footer>
+
+        <script type="module" src="./scripts/cadastrar-produto.js"></script>
+    </body>
+</html>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="./css/comum.css" />
+        <link rel="stylesheet" href="./css/detalhe-produto.css" />
+
+        <script
+            src="https://kit.fontawesome.com/162b81ecbe.js"
+            crossorigin="anonymous"
+        ></script>
+        <title>Alura Geek</title>
+    </head>
+    <body>
+        <header>
+            <div class="topo">
+                <div class="container">
+                    <a href="/">
+                        <img src="./img/Logo.png" alt="" class="logo" />
+                    </a>
+                    <div class="container-input">
+                        <a href="/login" class="link-login-btn"
+                            ><button class="login-btn btn">Login</button></a
+                        >
+
+                        <article class="perfil-data">
+                            <img
+                                src="./img/avatar1.png"
+                                alt=""
+                                class="perfil-avatar img"
+                            />
+                            <h5 class="perfil-nome titulo">usuario1354</h5>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <main class="main">
+            <div class="container produtos-container">
+                <div class="container-item-produtos">
+                    <div class="container-img-miniatura">
+                        <div
+                            class="img-miniatura-container selecionado"
+                            data-id="1"
+                        >
+                            <img
+                                class="img img-miniatura"
+                                src="./img1.png"
+                                alt=""
+                                draggable="false"
+                            />
+                        </div>
+                    </div>
+                    <div class="container-img-principal">
+                        <button class="prev">
+                            <i class="fa-solid fa-caret-left"></i>
+                        </button>
+                        <button class="next">
+                            <i class="fa-solid fa-caret-right"></i>
+                        </button>
+                        <div class="slider">
+                            <img
+                                class="img img-principal"
+                                src="./img1.png"
+                                alt=""
+                            />
+                        </div>
+                    </div>
+                    <div class="container-info-produto">
+                        <h2 class="single-product-name product-info titulo">
+                            fita retrô original
+                        </h2>
+                        <span class="label">descrição:</span>
+                        <p class="single-product-descricao product-info">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing
+                            elit. Tempora magni reprehenderit facilis modi eaque
+                            vero expedita nostrum dolorum odit suscipit?
+                            Mollitia ipsum autem rerum
+                        </p>
+                        <span class="label">objetivo:</span>
+                        <p class="single-product-troca-ou-doacao product-info">
+                            trocar
+                        </p>
+                        <span class="label">tipo:</span>
+                        <p class="single-product-tipo product-info">material</p>
+                        <span class="label">categoria:</span>
+                        <p class="single-product-categoria product-info">
+                            entretenimento
+                        </p>
+                        <span class="label">condição:</span>
+                        <p class="single-product-condicao product-info">
+                            avariado
+                        </p>
+                        <button class="acordo-btn btn">Eu Quero!</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- modal proposta -->
+            <div class="modal">
+                <button class="close-btn fechar-proposta">
+                    <i class="fas fa-times"></i>
+                </button>
+
+                <div class="modal-content">
+                    <div class="produto-alvo campo-troca">
+                        <h3>O que eu quero</h3>
+                        <div
+                            class="container-produtos-alvo"
+                            data-tipo="alvo"
+                        ></div>
+                    </div>
+                    <div class="campo-de-confirmacao">
+                        <img
+                            src="./img/trocaTransparente.png"
+                            alt=""
+                            class="img"
+                        />
+                        <button class="enviar-proposta-btn btn">
+                            confirmar
+                        </button>
+                    </div>
+                    <div class="cesta-de-trocas campo-troca">
+                        <h3>O que eu ofereço</h3>
+                        <div
+                            class="container-produtos-adicionados"
+                            data-tipo="oferta"
+                        ></div>
+                    </div>
+
+                    <div class="produtos-disponiveis campo-troca">
+                        <h3>O que eu tenho</h3>
+                        <div
+                            class="container-produtos-disponiveis"
+                            data-tipo="possui"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="loading">
+                    <div class="sppiner"></div>
+                </div>
+            </div>
+        </main>
+        <footer>
+            <div class="info-contato">
+                <div class="container">
+                    <div class="container-info-list">
+                        <img src="./img/Logo.png" alt="" />
+                        <ul>
+                            <li><a href="#">Quem somos nós</a></li>
+                            <li><a href="#">Anuncie aqui</a></li>
+                        </ul>
+                    </div>
+                    <div class="container-info-form">
+                        <p class="bold titulo">fale conosco</p>
+                        <form action="#">
+                            <div class="single-input">
+                                <input
+                                    type="text"
+                                    id="name"
+                                    maxlength="50"
+                                    required
+                                />
+                                <label for="name">Nome</label>
+                            </div>
+
+                            <textarea
+                                id="message"
+                                placeholder="Escreva sua mensagem"
+                                maxlength="200"
+                            ></textarea>
+
+                            <button class="btn" type="submit">
+                                Enviar Mensagem
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="rodape">
+                <p>
+                    Desenvolvido por Rafael Nascimento
+                    <span id="data">0000</span>
+                </p>
+                <div>
+                    <a
+                        href="https://github.com/Rafa-S-Nascimento"
+                        target="_blank"
+                    >
+                        <i class="fa-brands fa-github"></i>
+                    </a>
+                    <a
+                        href="https://www.linkedin.com/in/rafael-s-nascimento/"
+                        target="_blank"
+                    >
+                        <i class="fa-brands fa-linkedin"></i>
+                    </a>
+                </div>
+                <p>
+                    <span class="credito">
+                        Avatar illustrations by
+                        <a
+                            class="credito-url"
+                            href="https://www.freepik.com/free-vector/different-expressions-cartoon-face-vector-illustrations-set-cute-funny-angry-happy-smiling-comic-faces-with-eyes-mouth-isolated-purple-background-emotions-concept-character-design_21683626.htm#page=7&query=avatar&position=0&from_view=keyword&track=sph"
+                            target="_blank"
+                            >pch.vector</a
+                        >
+                        on Freepik
+                    </span>
+                </p>
+            </div>
+        </footer>
+
+        <script type="module" src="./scripts/detalhe-produto-view.js"></script>
+        <script type="module" src="./scripts/sistema-trocas.js"></script>
+    </body>
+</html>

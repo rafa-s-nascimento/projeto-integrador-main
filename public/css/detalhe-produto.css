@@ -1,0 +1,430 @@
+/* topo */
+
+.container-input {
+    justify-content: flex-end;
+}
+
+/* end topo */
+
+/* main */
+
+/* exibir */
+
+.produtos-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+}
+
+.container-item-produtos {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: auto;
+    height: auto;
+    margin: 3rem 0;
+    width: 100%;
+    border-top-right-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+}
+
+.slider {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+}
+.container-item-produtos .container-img-miniatura {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    height: auto;
+    /* background-color: red; */
+    justify-content: center;
+    padding: 0.25rem;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    order: 1;
+    max-height: 192px;
+    overflow: hidden;
+}
+.img-miniatura-container {
+    width: 90px;
+    height: 90px;
+    margin-right: 0.25rem;
+    margin-bottom: 0.25rem;
+    border: 1px solid var(--blue-color);
+}
+.img-miniatura {
+    width: 100%;
+    height: 100%;
+}
+
+.container-item-produtos .container-img-principal {
+    width: 100%;
+    padding: 1rem 0;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    height: 400px;
+}
+
+.img-principal {
+    position: absolute;
+    width: 100%;
+    height: calc(100% - 32px);
+}
+
+.selecionado {
+    border: 2px solid red !important;
+}
+
+.prev,
+.next {
+    position: absolute;
+    background-color: transparent;
+    font-size: 2rem;
+    border: none;
+    color: var(--blue-color);
+    padding: 0.5rem;
+    cursor: pointer;
+    z-index: 1;
+}
+.prev {
+    top: 0;
+    left: 0px;
+    bottom: 0;
+}
+.next {
+    top: 0;
+    right: 0px;
+    bottom: 0;
+}
+
+/* info */
+
+.container-item-produtos .container-info-produto {
+    width: 100%;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    order: 2;
+    position: relative;
+    /* background-color: #fff; */
+}
+
+.label {
+    color: #a1a1a1;
+}
+
+.container-info-produto .product-info {
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+}
+.container-info-produto .single-product-name {
+    padding-left: 0;
+    margin-bottom: 1.5rem;
+}
+.container-info-produto .single-product-condicao {
+    margin-bottom: 2rem;
+}
+.container-info-produto .single-product-descricao {
+    max-height: 88px;
+    overflow: hidden;
+}
+
+.container-info-produto .acordo-btn {
+    padding: 0.75rem;
+    width: 100%;
+    border: 1px solid var(--blue-color);
+    background-color: var(--blue-color);
+    color: #fff;
+    margin: 0 auto;
+    border-radius: 5px;
+}
+/* end main */
+
+/* modal */
+
+.modal {
+    position: fixed;
+    z-index: -1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 1);
+    transition: var(--transition);
+    opacity: 0;
+    min-height: 100vh;
+    overflow: hidden;
+}
+.modal.open {
+    opacity: 1;
+    z-index: 999;
+}
+.close-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 3rem;
+    color: var(--white-color);
+    background: transparent;
+    border-color: transparent;
+    cursor: pointer;
+}
+
+/* modal content */
+
+.modal-content {
+    width: 80%;
+    max-width: 1200px;
+    margin: 0 auto;
+    margin-top: 5rem;
+    position: relative;
+
+    /* sistema de trocas */
+
+    display: grid;
+    grid-template-columns: 336px auto 336px 336px;
+    grid-template-areas: "a b c d";
+}
+
+/* sistema de trocas */
+
+.campo-troca {
+    width: 336px;
+    padding: 1rem;
+    min-width: 275px;
+    height: 850px;
+}
+.campo-troca h3 {
+    margin-bottom: 1rem;
+    text-align: center;
+}
+.produto-alvo {
+    grid-area: a;
+    background-color: #f5f5f5;
+    border-bottom-left-radius: 10px;
+    border-top-left-radius: 10px;
+    border-right: 4px solid #000;
+}
+.cesta-de-trocas {
+    background-color: #f5f5f5;
+    grid-area: c;
+    border-left: 2px solid #000;
+    border-right: 2px solid #000;
+}
+.produtos-disponiveis {
+    background-color: #f5f5f5;
+    grid-area: d;
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10px;
+    border-left: 4px solid #000;
+}
+.campo-de-confirmacao {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+/* produtos miniaturas */
+
+.item {
+    height: 300px;
+    width: 300px;
+    margin-bottom: 1rem;
+    overflow: hidden;
+    position: relative;
+    border-radius: 0.5rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.item:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.item .objetivo-produto {
+    position: absolute;
+    background-color: var(--blue-color);
+    color: #fff;
+    padding: 0.25rem 0.5rem;
+    right: 0;
+    top: 0;
+}
+
+.item .container-img {
+    height: 40%;
+    min-height: 150px;
+    background-color: #222222;
+    margin-bottom: 1rem;
+}
+.container-img img {
+    display: block;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+
+.item .nome-produto {
+    font-weight: 600;
+    width: calc(100% - 1px);
+    letter-spacing: 1px;
+    text-transform: capitalize;
+    margin-bottom: 1rem;
+    color: #222222;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    padding-right: 1rem;
+    font-size: 1rem;
+}
+.item .tag-produto {
+    color: #818181;
+    margin-bottom: 1rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+.item a {
+    font-weight: 600;
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+.link-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 0.75rem;
+}
+.single-product-miniatura-alterar {
+    padding: 0.1rem;
+    height: 28px;
+    border-bottom-right-radius: 5px;
+}
+
+.ocutar-btn {
+    opacity: 0;
+    z-index: -999;
+}
+
+/* fim dos produtos */
+
+/* loading */
+.loading {
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    z-index: 10;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    display: none;
+}
+
+.sppiner {
+    /* position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0; */
+    width: 8rem;
+    height: 8rem;
+    border: 1rem solid rgba(0, 0, 0, 0.4);
+    /* background-color: #fff; */
+    border-top-color: #ff0000;
+    border-radius: 50%;
+    animation-name: spin;
+    animation-duration: 1000ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    /* animation: spin 1s linear 0 infinite; */
+    /* display: none; */
+}
+
+.show {
+    display: flex;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@media screen and (min-width: 503px) {
+    h1 {
+        font-size: 3rem;
+    }
+    h2 {
+        font-size: 2rem;
+    }
+    h3 {
+        font-size: 1.5rem;
+    }
+    p {
+        font-size: 1.15rem;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    /* main exibição de itens */
+
+    /* exibir */
+    .container-item-produtos {
+        flex-direction: row;
+        width: 100%;
+        height: 526px;
+        background-image: linear-gradient(
+            to right,
+            rgb(245, 245, 245),
+            rgb(255, 255, 255)
+        );
+    }
+
+    .container-item-produtos .container-img-principal {
+        order: 1;
+        width: 50%;
+        height: auto;
+    }
+
+    .container-item-produtos .container-img-miniatura {
+        display: block;
+        width: 10%;
+        padding: 1rem 0;
+        overflow: hidden;
+        max-height: 100%;
+    }
+    .img-miniatura-container {
+        margin-right: 0;
+        width: auto;
+        border: 1px solid var(--blue-color);
+    }
+    .img-miniatura {
+        /* height: 150px; */
+        flex-shrink: 1;
+        width: 100%;
+        max-height: 90px;
+        box-sizing: border-box;
+        margin-bottom: 1rem;
+    }
+
+    .container-item-produtos .container-info-produto {
+        order: 2;
+        padding: 1rem;
+        width: 40%;
+    }
+    .container-info-produto .acordo-btn {
+        position: absolute;
+        bottom: 16px;
+        width: calc(100% - 32px);
+    }
+
+    /* end main */
+}

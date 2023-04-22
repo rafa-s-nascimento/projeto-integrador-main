@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="./css/comum.css" />
+        <link rel="stylesheet" href="./css/home.css" />
+        <script
+            src="https://kit.fontawesome.com/162b81ecbe.js"
+            crossorigin="anonymous"
+        ></script>
+        <title>Alura Geek</title>
+    </head>
+    <body>
+        <header>
+            <div class="topo">
+                <div class="container">
+                    <a href="/">
+                        <img src="./img/Logo.png" alt="" class="logo" />
+                    </a>
+                    <div class="container-input">
+                        <a href="/login" class="link-login-btn"
+                            ><button class="login-btn btn">Login</button></a
+                        >
+
+                        <a class="perfil-data" href="/gerenciar">
+                            <article>
+                                <img
+                                    src="./img/avatar1.png"
+                                    alt=""
+                                    class="perfil-avatar img"
+                                />
+                                <h5 class="perfil-nome titulo">usuario1354</h5>
+                            </article>
+                        </a>
+
+                        <div class="div-input">
+                            <input
+                                type="text"
+                                maxlength="35"
+                                placeholder="O que deseja encontrar?"
+                            />
+                            <button>
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero">
+                <div class="container">
+                    <h2 class="titulo bold">dezembro promocional</h2>
+                    <p class="bold">
+                        Produtos selecionados com 33% de desconto
+                    </p>
+
+                    <a href="#consoles"
+                        ><button class="btn titulo console-btn">
+                            Ver consoles
+                        </button></a
+                    >
+                </div>
+            </div>
+        </header>
+        <main>
+            <div class="container container-section-items">
+                <div class="produtos-container">
+                    <!-- placeholder article -->
+                    <article class="item" data-id="${produto.id}">
+                        <span class="objetivo-produto">trocar</span>
+                        <div class="container-img">
+                            <img
+                                src="./uploads/9939ddd1f6b07073b62745d7962e2d4b.jpg"
+                                alt="${produto.nome}"
+                            />
+                        </div>
+                        <p class="nome-produto">
+                            O senhor dos aneis - as duas torres e o retorno do
+                            rei
+                        </p>
+                        <div class="tag-produto">
+                            <p class="categoria-produto">#entretenimento</p>
+                            <p class="tipo-produto">#livro</p>
+                        </div>
+                        <a
+                            href="./detalhe-produto.html?id=1234"
+                            class="link-produto"
+                            >Ver produto</a
+                        >
+                    </article>
+                </div>
+            </div>
+        </main>
+        <footer>
+            <div class="info-contato">
+                <div class="container">
+                    <div class="container-info-list">
+                        <img src="./img/Logo.png" alt="" />
+                        <ul>
+                            <li><a href="#">Quem somos nós</a></li>
+                            <!-- <li>
+                                Créditos
+
+                                <span class="credito">
+                                    illustrations by
+                                    <a
+                                        class="credito-url"
+                                        href="https://www.freepik.com/free-vector/different-expressions-cartoon-face-vector-illustrations-set-cute-funny-angry-happy-smiling-comic-faces-with-eyes-mouth-isolated-purple-background-emotions-concept-character-design_21683626.htm#page=7&query=avatar&position=0&from_view=keyword&track=sph"
+                                        target="_blank"
+                                        >pch.vector</a
+                                    >
+                                    on Freepik
+                                </span>
+                            </li> -->
+                            <li><a href="#">Anuncie aqui</a></li>
+                        </ul>
+                    </div>
+                    <div class="container-info-form">
+                        <p class="bold titulo">fale conosco</p>
+                        <form action="#">
+                            <div class="single-input">
+                                <input
+                                    type="text"
+                                    id="name"
+                                    maxlength="50"
+                                    required
+                                />
+                                <label for="name">Nome</label>
+                            </div>
+
+                            <textarea
+                                id="message"
+                                placeholder="Escreva sua mensagem"
+                                maxlength="200"
+                            ></textarea>
+
+                            <button class="btn" type="submit">
+                                Enviar Mensagem
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="rodape">
+                <p>
+                    Desenvolvido por Rafael Nascimento
+                    <span id="data">0000</span>
+                </p>
+                <div>
+                    <a
+                        href="https://github.com/Rafa-S-Nascimento"
+                        target="_blank"
+                    >
+                        <i class="fa-brands fa-github"></i>
+                    </a>
+                    <a
+                        href="https://www.linkedin.com/in/rafael-s-nascimento/"
+                        target="_blank"
+                    >
+                        <i class="fa-brands fa-linkedin"></i>
+                    </a>
+                </div>
+                <p>
+                    <span class="credito">
+                        Avatar illustrations by
+                        <a
+                            class="credito-url"
+                            href="https://www.freepik.com/free-vector/different-expressions-cartoon-face-vector-illustrations-set-cute-funny-angry-happy-smiling-comic-faces-with-eyes-mouth-isolated-purple-background-emotions-concept-character-design_21683626.htm#page=7&query=avatar&position=0&from_view=keyword&track=sph"
+                            target="_blank"
+                            >pch.vector</a
+                        >
+                        on Freepik
+                    </span>
+                </p>
+            </div>
+        </footer>
+
+        <script type="module" src="./scripts/index.js"></script>
+    </body>
+</html>

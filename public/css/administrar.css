@@ -1,0 +1,25 @@
+.container-input .div-input {
+    display: none;
+}
+.container-input {
+    justify-content: flex-end;
+}
+.link-login-btn {
+    display: block;
+}
+/* end topo */
+
+/* main */
+.info {
+    padding: 1rem 0;
+    text-align: center;
+}
+
+.container-info {
+    padding: 2rem 0;
+}
+
+.info-produtos .container-produtos {
+    min-height: 100px;
+    display: flex;
+}

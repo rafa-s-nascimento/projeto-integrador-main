@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="./css/comum.css" />
+        <link rel="stylesheet" href="./css/login.css" />
+        <script
+            src="https://kit.fontawesome.com/162b81ecbe.js"
+            crossorigin="anonymous"
+        ></script>
+        <title>Alura Geek</title>
+    </head>
+    <body>
+        <header>
+            <div class="topo">
+                <div class="container">
+                    <a href="/">
+                        <img src="./img/Logo.png" alt="" class="logo" />
+                    </a>
+                    <div class="container-input">
+                        <a href="/login" class="link-login-btn"
+                            ><button class="login-btn btn">Login</button></a
+                        >
+
+                        <article class="perfil-data">
+                            <img
+                                src="./img/avatar1.png"
+                                alt=""
+                                class="perfil-avatar img"
+                            />
+                            <h5 class="perfil-nome titulo">usuario1354</h5>
+                        </article>
+
+                        <div class="div-input">
+                            <input
+                                type="text"
+                                maxlength="35"
+                                placeholder="O que deseja encontrar?"
+                            />
+                            <button>
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <main>
+            <div class="container">
+                <div class="login-container">
+                    <form action="#">
+                        <p id="p" class="titulo bold">cadastre-se!</p>
+                        <input
+                            type="text"
+                            placeholder="Escreva seu nome/apelido"
+                            class="cadastro-nome"
+                        />
+                        <input
+                            type="email"
+                            placeholder="Escreva seu email"
+                            class="cadastro-email"
+                        />
+                        <input
+                            type="password"
+                            placeholder="Escreva sua senha"
+                            class="senha1"
+                        />
+                        <input
+                            type="password"
+                            placeholder="Confirme sua senha"
+                            class="senha2"
+                        />
+                        <button type="submit" class="entrar-btn btn">
+                            Cadastrar
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </main>
+        <footer>
+            <div class="info-contato">
+                <div class="container">
+                    <div class="container-info-list">
+                        <img src="./img/Logo.png" alt="" />
+                        <ul>
+                            <li><a href="#">Quem somos nós</a></li>
+                            <li><a href="#">Anuncie aqui</a></li>
+                        </ul>
+                    </div>
+                    <div class="container-info-form">
+                        <p class="bold titulo">fale conosco</p>
+                        <form action="#">
+                            <div class="single-input">
+                                <input
+                                    type="text"
+                                    id="name"
+                                    maxlength="50"
+                                    required
+                                />
+                                <label for="name">Nome</label>
+                            </div>
+
+                            <textarea
+                                id="message"
+                                placeholder="Escreva sua mensagem"
+                                maxlength="200"
+                            ></textarea>
+
+                            <button class="btn" type="submit">
+                                Enviar Mensagem
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="rodape">
+                <p>
+                    Desenvolvido por Rafael Nascimento
+                    <span id="data">0000</span>
+                </p>
+                <div>
+                    <a
+                        href="https://github.com/Rafa-S-Nascimento"
+                        target="_blank"
+                    >
+                        <i class="fa-brands fa-github"></i>
+                    </a>
+                    <a
+                        href="https://www.linkedin.com/in/rafael-s-nascimento/"
+                        target="_blank"
+                    >
+                        <i class="fa-brands fa-linkedin"></i>
+                    </a>
+                </div>
+                <p>
+                    <span class="credito">
+                        Avatar illustrations by
+                        <a
+                            class="credito-url"
+                            href="https://www.freepik.com/free-vector/different-expressions-cartoon-face-vector-illustrations-set-cute-funny-angry-happy-smiling-comic-faces-with-eyes-mouth-isolated-purple-background-emotions-concept-character-design_21683626.htm#page=7&query=avatar&position=0&from_view=keyword&track=sph"
+                            target="_blank"
+                            >pch.vector</a
+                        >
+                        on Freepik
+                    </span>
+                </p>
+            </div>
+        </footer>
+
+        <script type="module" src="./scripts/cadastro.js"></script>
+    </body>
+</html>
