@@ -44,7 +44,6 @@ window.addEventListener("DOMContentLoaded", async () => {
                 />
             </div>`;
             })
-            .reverse()
             .join("");
 
         slider.innerHTML = img
@@ -57,9 +56,7 @@ window.addEventListener("DOMContentLoaded", async () => {
             })
             .join("");
 
-        const mainImgs = [
-            ...document.querySelectorAll(".img-principal"),
-        ].reverse();
+        const mainImgs = [...document.querySelectorAll(".img-principal")];
 
         const prev = document.querySelector(".prev");
         const next = document.querySelector(".next");

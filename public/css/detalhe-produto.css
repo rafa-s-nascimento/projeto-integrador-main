@@ -87,7 +87,7 @@
     background-color: transparent;
     font-size: 2rem;
     border: none;
-    color: var(--blue-color);
+    color: var(--yellow-color);
     padding: 0.5rem;
     cursor: pointer;
     z-index: 1;
@@ -115,7 +115,7 @@
 }
 
 .label {
-    color: #a1a1a1;
+    color: var(--gray-color2);
 }
 
 .container-info-produto .product-info {
@@ -137,9 +137,10 @@
 .container-info-produto .acordo-btn {
     padding: 0.75rem;
     width: 100%;
-    border: 1px solid var(--blue-color);
-    background-color: var(--blue-color);
-    color: #fff;
+    border: 1px solid var(--yellow-color);
+    background-color: var(--yellow-color);
+    color: var(--black-color);
+    font-weight: 600;
     margin: 0 auto;
     border-radius: 5px;
 }
@@ -208,20 +209,20 @@
     background-color: #f5f5f5;
     border-bottom-left-radius: 10px;
     border-top-left-radius: 10px;
-    border-right: 4px solid #000;
+    border-right: 4px solid var(--black-color);
 }
 .cesta-de-trocas {
     background-color: #f5f5f5;
     grid-area: c;
-    border-left: 2px solid #000;
-    border-right: 2px solid #000;
+    border-left: 2px solid var(--black-color);
+    border-right: 2px solid var(--black-color);
 }
 .produtos-disponiveis {
     background-color: #f5f5f5;
     grid-area: d;
     border-bottom-right-radius: 10px;
     border-top-right-radius: 10px;
-    border-left: 4px solid #000;
+    border-left: 4px solid var(--black-color);
 }
 .campo-de-confirmacao {
     display: flex;
@@ -249,7 +250,7 @@
 .item .objetivo-produto {
     position: absolute;
     background-color: var(--blue-color);
-    color: #fff;
+    color: var(--white-color);
     padding: 0.25rem 0.5rem;
     right: 0;
     top: 0;
@@ -258,7 +259,7 @@
 .item .container-img {
     height: 40%;
     min-height: 150px;
-    background-color: #222222;
+    background-color: var(--black-color2);
     margin-bottom: 1rem;
 }
 .container-img img {
@@ -274,7 +275,7 @@
     letter-spacing: 1px;
     text-transform: capitalize;
     margin-bottom: 1rem;
-    color: #222222;
+    color: var(--black-color2);
     margin-left: 1rem;
     margin-right: 1rem;
     text-overflow: ellipsis;
@@ -284,7 +285,7 @@
     font-size: 1rem;
 }
 .item .tag-produto {
-    color: #818181;
+    color: var(--gray-color2);
     margin-bottom: 1rem;
     margin-left: 1rem;
     margin-right: 1rem;
@@ -324,7 +325,7 @@
     z-index: 10;
     align-items: center;
     justify-content: center;
-    background-color: #fff;
+    background-color: var(--white-color);
     display: none;
 }
 
@@ -404,7 +405,7 @@
     .img-miniatura-container {
         margin-right: 0;
         width: auto;
-        border: 1px solid var(--blue-color);
+        border: 1px solid var(--yellow-color);
     }
     .img-miniatura {
         /* height: 150px; */
