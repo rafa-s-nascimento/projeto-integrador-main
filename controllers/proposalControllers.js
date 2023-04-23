@@ -1,44 +1,68 @@
+const ImagensProduto = require("../models/imagensProdutoModels");
+const ProductModel = require("../models/productModel");
+
+const validarUsuario = (arr_colection, id) => {
+    return arr_colection.some((produto) => produto.id == id);
+};
+
+const produtosParaTroca = (arr_colection) => {
+    return arr_colection.map((produto) => {
+        return {
+            id: produto.id,
+            nome: produto.nome,
+            img: { src: produto.produtoImg[0].img_path },
+        };
+    });
+};
+
 // essa rota precisa ser protegida, é necessário passar o middle de auth antes
 const getInfoProposta = async (req, res) => {
-    const params = req.params;
+    if (!req.params) {
+        return res.status(400).send("Não foi possível localizar o id");
+    }
 
+    const id_produto = req.params.productID;
     const interessado = req.user;
 
-    const produto_alvo = "req"; //requisição para o bd para procura pelo produto e o dono
+    const produtos_requisitante = await ProductModel.findAll({
+        include: [{ model: ImagensProduto, as: "produtoImg" }],
+        // condicionais
+        where: { usuario_id: interessado.id },
+    });
+
+    const pertence_ao_requisitante = validarUsuario(
+        produtos_requisitante,
+        id_produto
+    );
+
+    if (pertence_ao_requisitante) {
+        return res
+            .status(400)
+            .send("Não é permitido fazer propostas para si mesmo");
+    }
+
+    const produto_requisitado = await ProductModel.findByPk(id_produto, {
+        include: [{ model: ImagensProduto, as: "produtoImg" }],
+    });
 
     res.status(200).json({
         proprietario: {
             user: {
-                id: 12,
-                nome: "jhon doe",
-                avatar: "./img/avatar4.png",
+                id: produto_requisitado.usuario_id,
             },
             produto: [
                 {
-                    id: 1234,
-                    nome: "fita original vhs",
-                    img: ["./uploads/1681647511841.jpg"],
+                    id: produto_requisitado.id,
+                    nome: produto_requisitado.nome,
+                    img: { src: produto_requisitado.produtoImg[0].img_path },
                 },
             ],
         },
         interessado: {
             user: {
-                id: 39,
-                nome: "bob o contrutor",
-                avatar: "./img/avatar1.png",
+                id: produtos_requisitante.usuario_id,
             },
-            produto: [
-                {
-                    id: 1245,
-                    nome: "fita original vhs",
-                    img: ["./uploads/1681647511841.jpg"],
-                },
-                {
-                    id: 1246,
-                    nome: "fita original vhs",
-                    img: ["./uploads/9939ddd1f6b07073b62745d7962e2d4b.jpg"],
-                },
-            ],
+            produto: produtosParaTroca(produtos_requisitante),
         },
     });
 };

@@ -39,7 +39,6 @@ const testarRelacionamentos = async () => {
 const getProducts = async (req, res) => {
     let params = null;
     let limit = null;
-    const url = req.url;
 
     if (req.params) {
         params = req.params;

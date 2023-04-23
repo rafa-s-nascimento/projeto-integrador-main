@@ -40,14 +40,19 @@ const { validarCookie } = ajustes;
 //     ],
 // };
 
-// console.log(dataJson);
-
 const acordoBtn = document.querySelector(".acordo-btn");
+const fecharModal = document.querySelector(".close-btn");
 const modal = document.querySelector(".modal");
 
 const url = window.location.search;
 
 let propostaAberta = null;
+
+const encerrar = () => {
+    modal.classList.remove("open");
+    propostaAberta.fechando_proposta_de_troca();
+    propostaAberta = null;
+};
 
 acordoBtn.addEventListener("click", () => {
     const valid = validarCookie("token");
@@ -68,19 +73,15 @@ acordoBtn.addEventListener("click", () => {
     propostaAberta.abrindo_proposta();
 });
 
+fecharModal.addEventListener("click", encerrar);
+
 class Proposta {
     constructor(produto_id) {
         this.id_dono_do_produto = null;
         this.produto_alvo_id = produto_id;
         this.cesta_de_trocas = [];
         this.produtos_usuario_interessado = null;
-        this.id_usuario_interessado;
-
-        this.fechar_proposta = document.querySelector(".fechar-proposta");
-        this.fechar_proposta.addEventListener(
-            "click",
-            this.fechando_proposta_de_troca
-        );
+        this.id_usuario_interessado = null;
 
         this.confirmar = document.querySelector(".enviar-proposta-btn");
         this.confirmar.addEventListener("click", this.enviar_proposta);
@@ -110,10 +111,14 @@ class Proposta {
             const response = await fetch(
                 `http://localhost:5000/products/proposta/${this.produto_alvo_id}`
             );
+
+            if (response.status !== 200) {
+                throw new Error("Não foi possível efetuar a proposta");
+            }
+
             const data = await response.json();
 
             // remover o spinner quando a resposta
-            loading.classList.remove("show");
 
             if (data) {
                 const { proprietario, interessado } = data;
@@ -136,8 +141,11 @@ class Proposta {
                 );
             }
         } catch (error) {
+            encerrar();
             console.log(error);
         }
+
+        loading.classList.remove("show");
     };
 
     // esse método valida e adiciona o produto a cesta de trocas
@@ -224,19 +232,10 @@ class Proposta {
     // esse método encerra a proposta sem enviar, resetando os dados.
     fechando_proposta_de_troca = () => {
         console.log("fechando proposta");
-        modal.classList.remove("open");
-
-        this.confirmar.removeEventListener("click", this.enviar_proposta);
-        this.fechar_proposta.removeEventListener(
-            "click",
-            this.fechando_proposta_de_troca
-        );
 
         this.container_alvo.innerHTML = "";
         this.container_ofereco.innerHTML = "";
         this.container_possuo.innerHTML = "";
-
-        propostaAberta = null;
     };
 
     // esse método é privado, ele é responsável por renderizar e exibir os
@@ -248,7 +247,7 @@ class Proposta {
             return;
         }
 
-        produtos.forEach(({ id, img, nome, cateogoria, tipo }) => {
+        produtos.forEach(({ id, img: { src }, nome, cateogoria, tipo }) => {
             const article = document.createElement("article");
             const containerImg = document.createElement("div");
             const imagem = document.createElement("img");
@@ -267,7 +266,7 @@ class Proposta {
             containerImg.classList.add("container-img");
             // imagem.classList.add("img");
             imagem.setAttribute("alt", nome);
-            imagem.setAttribute("src", img);
+            imagem.setAttribute("src", src);
             containerImg.appendChild(imagem);
             article.appendChild(containerImg);
 
@@ -282,6 +281,7 @@ class Proposta {
             tipoProduto.textContent = `#${tipo}`;
             tagProdutos.appendChild(categoriaProduto);
             tagProdutos.appendChild(tipoProduto);
+            tagProdutos.classList.add("display-none");
             article.appendChild(tagProdutos);
 
             linkContainer.classList.add("link-container");
@@ -290,13 +290,6 @@ class Proposta {
             a.setAttribute("target", "_blank");
             a.textContent = "Ver produto";
             linkContainer.appendChild(a);
-
-            // article.appendChild(a);
-
-            // if (parentElement.dataset.tipo === "alvo") {
-            //     parentElement.appendChild(article);
-            //     return;
-            // }
 
             alterarBtn.classList.add("btn");
             alterarBtn.classList.add("single-product-miniatura-alterar");

@@ -234,7 +234,7 @@
 /* produtos miniaturas */
 
 .item {
-    height: 300px;
+    height: 220px;
     width: 300px;
     margin-bottom: 1rem;
     overflow: hidden;
@@ -258,7 +258,7 @@
 
 .item .container-img {
     height: 40%;
-    min-height: 150px;
+    min-height: 130px;
     background-color: var(--black-color2);
     margin-bottom: 1rem;
 }
@@ -312,6 +312,10 @@
 .ocutar-btn {
     opacity: 0;
     z-index: -999;
+}
+
+.display-none {
+    display: none;
 }
 
 /* fim dos produtos */
