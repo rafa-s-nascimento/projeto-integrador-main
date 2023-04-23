@@ -60,7 +60,7 @@ const getProducts = async (req, res) => {
             { model: ImagensProduto, as: "produtoImg" },
         ],
         limit: limit,
-        where: { visivel: 1 },
+        where: { visivel: 1, disponivel: 1 },
     });
 
     const result = selectProducts.map((produto) => {
@@ -94,8 +94,7 @@ const getSingleProduct = async (req, res) => {
     // o atributo raw é importante para que assim possa ser retornado um array simples de objetos.
     // nesse caso atributo where faz com que seja buscado o id que é passado como parametro na hora da requisição
     // 'select * from product where id = <id passado como parametro>
-    const singleProduct = await ProductModel.findOne({
-        where: { id: Number(id) },
+    const singleProduct = await ProductModel.findByPk(Number(id), {
         include: [
             { model: ValoresInput, as: "intencaoId" },
             { model: ValoresInput, as: "categoriaId" },

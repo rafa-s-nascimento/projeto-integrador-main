@@ -43,6 +43,11 @@ const Produto = sequelize.define(
         visivel: {
             type: DataTypes.BOOLEAN,
         },
+        disponivel: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: 1,
+        },
     },
     { tableName: "produto" }
 );

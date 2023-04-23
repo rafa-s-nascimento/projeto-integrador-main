@@ -78,7 +78,7 @@ function exibirInfoUsuario() {
         perfilData.addEventListener("click", redirecionarAdm);
 
         perfilAvatar.src = img;
-        perfilNome.textContent = nome;
+        perfilNome.textContent = nome.replaceAll("%20", " ");
 
         return;
     }

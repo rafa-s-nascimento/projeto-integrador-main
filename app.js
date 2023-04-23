@@ -15,7 +15,7 @@ const gerenciar = require("./routes/gerenciarRouter");
 const cadastroProduto = require("./routes/cadastroProdutoRouter");
 const minhaConta = require("./routes/minha-contaRouter");
 
-// responsável por decodificar o body de post enviados no formato json
+// decodificadores
 app.use(express.json());
 app.use(fileUpload());
 app.use(cookieParser());
