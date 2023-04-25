@@ -1,5 +1,7 @@
 const ImagensProduto = require("../models/imagensProdutoModels");
 const ProductModel = require("../models/productModel");
+const PropostaDeTroca = require("../models/propostaModel");
+const UsuarioModel = require("../models/usuarioModel");
 
 const validarUsuario = (arr_colection, id) => {
     return arr_colection.some((produto) => produto.id == id);
@@ -14,6 +16,20 @@ const produtosParaTroca = (arr_colection) => {
         };
     });
 };
+
+const testarProposta = async () => {
+    const usuario = await UsuarioModel.findByPk(1, {
+        include: [
+            { model: PropostaDeTroca, as: "propostaRecebidaID" },
+            { model: PropostaDeTroca, as: "propostaEfetuadaID" },
+        ],
+    });
+
+    console.log(usuario.propostaRecebidaID);
+    console.log(usuario.propostaEfetuadaID);
+};
+
+testarProposta();
 
 // essa rota precisa ser protegida, é necessário passar o middle de auth antes
 const getInfoProposta = async (req, res) => {
