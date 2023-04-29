@@ -127,6 +127,7 @@ class Proposta {
                 console.log(interessado);
 
                 this.id_dono_do_produto = proprietario.user.id;
+                this.id_usuario_interessado = interessado.user.id;
 
                 this.produtos_usuario_interessado = interessado.produto;
 
@@ -141,8 +142,8 @@ class Proposta {
                 );
             }
         } catch (error) {
-            encerrar();
             console.log(error);
+            encerrar();
         }
 
         loading.classList.remove("show");
@@ -218,7 +219,7 @@ class Proposta {
     };
 
     // esse método e responsável por enviar a proposta para o servidor
-    enviar_proposta = () => {
+    enviar_proposta = async () => {
         if (this.cesta_de_trocas.length < 1) {
             alert("insira pelo menos um produto para troca.");
             return;
@@ -226,13 +227,50 @@ class Proposta {
 
         // fazer um put para o servidor com os dados da troca
         console.log("enviando proposta de troca");
-        this.fechando_proposta_de_troca();
+
+        const data = {
+            requisitado: {
+                id: this.id_dono_do_produto,
+                produto: { id: Number(this.produto_alvo_id) },
+            },
+            requisitante: {
+                id: this.id_usuario_interessado,
+                produto: this.cesta_de_trocas.map((produto) => {
+                    return { id: produto.id };
+                }),
+            },
+        };
+
+        try {
+            const response = await fetch(
+                "http://localhost:5000/products/proposta",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(data),
+                }
+            );
+
+            if (response.status !== 201) {
+                const mensagem = await response.json();
+                const { msg } = mensagem;
+
+                throw new Error(msg);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+
+        encerrar();
     };
 
     // esse método encerra a proposta sem enviar, resetando os dados.
     fechando_proposta_de_troca = () => {
         console.log("fechando proposta");
 
+        this.confirmar.removeEventListener("click", this.enviar_proposta);
         this.container_alvo.innerHTML = "";
         this.container_ofereco.innerHTML = "";
         this.container_possuo.innerHTML = "";

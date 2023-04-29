@@ -31,6 +31,8 @@ const PropostaDeTroca = sequelize.define(
     { tableName: "proposta_troca", timestamps: false }
 );
 
+// PropostaDeTroca.sync();
+
 PropostaDeTroca.belongsTo(Usuario, {
     constraint: true,
     foreignKey: "id_dono_do_produto",

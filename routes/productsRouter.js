@@ -18,6 +18,6 @@ router.get("/", getProducts);
 
 // rotas protegidas
 router.get("/proposta/:productID", authenticationMiddleware, getInfoProposta);
-router.post("/proposta/:productID", authenticationMiddleware, setInfoProposta);
+router.post("/proposta", authenticationMiddleware, setInfoProposta);
 
 module.exports = router;

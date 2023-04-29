@@ -4,9 +4,6 @@ const path = require("path");
 const ImagensProduto = require("../models/imagensProdutoModels");
 const ProductModel = require("../models/productModel");
 const ValoresInput = require("../models/valoresInputModels");
-const Usuario = require("../models/usuarioModel");
-const Password = require("../models/passwordModel");
-const Avatar = require("../models/avatarModels");
 
 const selectID = (arr, atributo, valor) => {
     return arr.find((obj) => obj[atributo] == valor)["id"];
@@ -18,22 +15,6 @@ const selectImg = (arr_colection) => {
         };
     });
 };
-
-const testarRelacionamentos = async () => {
-    // busca por associação.
-
-    // lazy loading
-    const usuario = await Usuario.findByPk(1);
-    const password = await usuario.getUsuario_password();
-
-    // Eager loading
-    const usuario2 = await Usuario.findByPk(1, { include: [Password, Avatar] });
-    const password2 = usuario2.usuario_password.senha;
-
-    console.log(usuario2);
-};
-
-// testarRelacionamentos();
 
 // retorna todos os produtos
 const getProducts = async (req, res) => {

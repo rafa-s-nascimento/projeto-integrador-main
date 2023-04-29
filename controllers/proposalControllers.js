@@ -8,6 +8,36 @@ const validarUsuario = (arr_colection, id) => {
     return arr_colection.some((produto) => produto.id == id);
 };
 
+// verifica se já existe uma proposta exatamente igual feita pela mesma
+// pessoa ao mesmo produto e retorna true ou false.
+const verificaSePropostaExiste = (bd_colection, nova_proposta) => {
+    const propostas = [];
+    const novaProposta = nova_proposta.produto.map((obj) => obj.id);
+    let propostaExiste = false;
+
+    bd_colection.forEach((proposta_troca) => {
+        const temp = [];
+        proposta_troca.proposta_produtos.forEach((propostaProduto) =>
+            temp.push(propostaProduto.id_produto_oferecido)
+        );
+
+        propostas.push(temp);
+    });
+
+    for (let i = 0; i < propostas.length; i++) {
+        if (novaProposta.length != propostas[i].length) {
+            continue;
+        }
+        const test = novaProposta.every((id) => propostas[i].includes(id));
+
+        if (test) {
+            return true;
+        }
+    }
+
+    return propostaExiste;
+};
+
 const produtosParaTroca = (arr_colection) => {
     return arr_colection.map((produto) => {
         return {
@@ -85,7 +115,7 @@ const getInfoProposta = async (req, res) => {
         },
         interessado: {
             user: {
-                id: produtos_requisitante.usuario_id,
+                id: interessado.id,
             },
             produto: produtosParaTroca(produtos_requisitante),
         },
@@ -94,12 +124,71 @@ const getInfoProposta = async (req, res) => {
 
 // controller responsável por enviar os dados de uma proposta concluida ao servidor
 const setInfoProposta = async (req, res) => {
-    const params = req.params;
-    const url = req.url;
-    console.log(params);
-    console.log(url);
-    res.status(201).json({
-        msg: "os dados foram enviados para o servidor",
+    let data = null;
+
+    if (!req.body) {
+        return res.status(400).json({ msg: "Falha ao enviar proposta" });
+    }
+
+    data = req.body;
+
+    const { requisitante, requisitado } = data;
+
+    if (requisitante.id !== req.user.id) {
+        return res.status(400).json({
+            msg: "Falha ao enviar proposta. Inconsistência nos dados de usuário",
+        });
+    }
+
+    console.log(requisitado.produto);
+
+    const propostasDoRequisitante = await UsuarioModel.findAll({
+        attributes: ["nome"],
+        include: [
+            {
+                model: PropostaDeTroca,
+                as: "propostaEfetuadaID",
+                include: [
+                    {
+                        model: PropostaProdutos,
+                        where: {
+                            id_produto_requisitado: requisitado.produto.id,
+                        },
+                    },
+                ],
+            },
+        ],
+        where: { id: requisitante.id },
+    });
+
+    const propostaCProdutoAlvo = propostasDoRequisitante[0].propostaEfetuadaID;
+
+    const validacao = verificaSePropostaExiste(
+        propostaCProdutoAlvo,
+        requisitante
+    );
+
+    if (validacao) {
+        return res.status(400).json({
+            msg: "Não é permitido enviar mais de uma vez a mesma proposta para esse produto.",
+        });
+    }
+
+    const proposta = await PropostaDeTroca.create({
+        id_dono_do_produto: requisitado.id,
+        id_usuario_interessado: requisitante.id,
+    });
+
+    for (let i = 0; i < requisitante.produto.length; i++) {
+        const propostaProdutos = await PropostaProdutos.create({
+            id_proposta: proposta.id,
+            id_produto_requisitado: requisitado.produto.id,
+            id_produto_oferecido: requisitante.produto[i].id,
+        });
+    }
+
+    return res.status(201).json({
+        msg: "Proposta enviada com sucesso!",
         success: true,
     });
 };
