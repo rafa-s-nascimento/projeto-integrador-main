@@ -12,10 +12,32 @@ const gerenciarPage = (req, res) => {
     res.status(302).sendFile(pathFile);
 };
 
-const gerenciarInfo = (req, res) => {
+const gerenciarInfoData = (req, res) => {
     // esse middleware pegara informações de usuario como produtos e propostas
 
-    res.status(200).json({ data: "info" });
+    res.status(200).json({
+        data: {
+            user: {
+                nome: "joaozinho",
+                avatar: "img/avatar2.png",
+                email: "email@email.com",
+            },
+            produto: [
+                {
+                    nome: "o segredo",
+                    id: 1234,
+                    intencao: "trocar",
+                    img: "./uploads/1681647756791.jpg",
+                    visivel: true,
+                    disponivel: true,
+                },
+            ],
+            propostas: {
+                recebidas: [],
+                efetuadas: [],
+            },
+        },
+    });
 };
 
-module.exports = { gerenciar, gerenciarPage, gerenciarInfo };
+module.exports = { gerenciar, gerenciarPage, gerenciarInfoData };

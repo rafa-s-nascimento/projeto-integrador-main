@@ -1,8 +1,27 @@
-const logoutBtn = document.querySelector(".logout-btn");
-const cadastrarBtn = document.querySelector(".cadastrar-produto-anc");
+import { gerenciarProdutos } from "./gerenciar-produto.js";
+import { ajustes } from "./comum.js";
 
-window.addEventListener("DOMContentLoaded", function () {
-    console.log(this.document.cookie);
+const logoutBtn = document.querySelector(".logout-btn");
+
+window.addEventListener("DOMContentLoaded", async function () {
+    ajustes.setLoading();
+    try {
+        const response = await fetch(
+            "http://localhost:5000/gerenciar/minha-conta/data"
+        );
+
+        if (response.status === 200) {
+            const { data } = await response.json();
+
+            const { user, produto, propostas } = data;
+
+            gerenciarProdutos(produto);
+        }
+    } catch (error) {
+        console.log(error);
+    }
+
+    ajustes.removeLoading();
 
     logoutBtn.addEventListener("click", (e) => {
         e.preventDefault();

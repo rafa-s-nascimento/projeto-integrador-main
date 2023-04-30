@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="./css/comum.css" />
-        <link rel="stylesheet" href="./css/administrar.css" />
+        <link rel="stylesheet" href="./css/gerenciar.css" />
         <!-- favicon -->
         <link
             rel="shortcut icon"
@@ -60,16 +60,226 @@
         <main>
             <div class="container">
                 <div class="container-info">
-                    <div class="info-usuario info">informações do usuario</div>
+                    <div class="info-usuario info">
+                        <h3>informações do usuario</h3>
+                    </div>
                     <div class="info-produtos info">
                         <h3>Meus produtos</h3>
-                        <div class="container-produtos info"></div>
-                        <a
-                            class="cadastrar-produto-anc"
-                            href="/cadastrar-produto"
-                        >
-                            <button class="btn">Cadastrar Produto</button>
-                        </a>
+                        <div class="produtos-container info">
+                            <!-- <article class="item" data-id="${produto.id}">
+                                <span class="objetivo-produto">trocar</span>
+                                <div class="container-img">
+                                    <img
+                                        src="./uploads/9939ddd1f6b07073b62745d7962e2d4b.jpg"
+                                        alt="${produto.nome}"
+                                    />
+                                </div>
+                                <p class="nome-produto">
+                                    O senhor dos aneis - as duas torres e o
+                                    retorno do rei
+                                </p>
+                                <div class="tag-produto">
+                                    <p class="categoria-produto">visível</p>
+                                    <p class="tipo-produto">disponível</p>
+                                </div>
+                                <button
+                                    href="./detalhe-produto.html?id=1234"
+                                    class="alterar-produto-btn"
+                                >
+                                    <i class="fa-solid fa-gear"></i>
+                                    alterar
+                                </button>
+                            </article> -->
+                        </div>
+                        <div class="info-produto-cadastrar-container">
+                            <a
+                                class="cadastrar-produto-anc"
+                                href="/cadastrar-produto"
+                            >
+                                <button class="btn">Cadastrar Produto</button>
+                            </a>
+                        </div>
+
+                        <!-- modal proposta -->
+                        <div class="modal modal-gerenciar-produto">
+                            <button class="close-btn fechar-gerenciar-produto">
+                                <i class="fas fa-times"></i>
+                            </button>
+
+                            <div class="modal-content">
+                                <form action="#" class="form">
+                                    <!-- <button
+                                        type="button"
+                                        class="excluir-btn btn"
+                                    >
+                                        <i class="fa-solid fa-trash"></i>
+                                        Excluir
+                                    </button> -->
+                                    <div>
+                                        <label for="nome"
+                                            >Nome/Titulo do produto</label
+                                        >
+                                        <input
+                                            class="nome nome-input"
+                                            name="nome"
+                                            type="text"
+                                            maxlength="50"
+                                            required
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label for="intencao"
+                                            >Qual a sua intenção?</label
+                                        >
+                                        <select
+                                            name="intencao"
+                                            id=""
+                                            required
+                                            class="intencao-input"
+                                        >
+                                            <option value="doar">Doar</option>
+                                            <option value="trocar">
+                                                Trocar
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label for="categoria">Categoria</label>
+                                        <select
+                                            name="categoria"
+                                            id=""
+                                            required
+                                            class="categoria-input"
+                                        >
+                                            <option
+                                                class="option"
+                                                value="educacional"
+                                            >
+                                                Educacional
+                                            </option>
+                                            <option value="entretenimento">
+                                                Entretenimento
+                                            </option>
+                                            <option value="outros">
+                                                Outros
+                                            </option>
+                                        </select>
+                                    </div>
+
+                                    <div>
+                                        <label for="tipo">Tipo</label>
+                                        <select
+                                            name="tipo"
+                                            id=""
+                                            required
+                                            class="tipo-input"
+                                        >
+                                            <option value="livro">Livro</option>
+                                            <option value="material">
+                                                Material
+                                            </option>
+                                            <option value="artes">Artes</option>
+                                            <option value="outros">
+                                                Outros
+                                            </option>
+                                        </select>
+                                    </div>
+
+                                    <div>
+                                        <label for="condicao">Condição</label>
+                                        <select
+                                            name="condicao"
+                                            id=""
+                                            required
+                                            class="condicao-input"
+                                        >
+                                            <option value="excelente">
+                                                Excelente
+                                            </option>
+                                            <option value="boa">Boa</option>
+                                            <option value="normal">
+                                                Normal
+                                            </option>
+                                            <option value="velho">Velho</option>
+                                            <option value="avariado">
+                                                Avariado
+                                            </option>
+                                        </select>
+                                    </div>
+
+                                    <div>
+                                        <label for="descricao">Descrição</label>
+                                        <textarea
+                                            class="descricao descricao-input"
+                                            name="descricao"
+                                            maxlength="300"
+                                            required
+                                        ></textarea>
+                                    </div>
+
+                                    <div class="container-img-form">
+                                        <label for="img"
+                                            >Adicionar imagens</label
+                                        >
+                                        <input
+                                            class="img img-input"
+                                            name="img"
+                                            type="file"
+                                            multiple
+                                            required
+                                        />
+                                    </div>
+
+                                    <div class="container-img-produto">
+                                        <p>Excluir imagens</p>
+                                        <div class="container-img-atual">
+                                            <div
+                                                class="container-img-produto-miniatura"
+                                            >
+                                                <span
+                                                    class="img-produto-miniatura-excluir"
+                                                >
+                                                    <i
+                                                        class="fa-solid fa-square-xmark"
+                                                    ></i>
+                                                </span>
+                                                <img
+                                                    src="/uploads/1681647511841.jpg"
+                                                    alt=""
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label for="visivel"
+                                            >Deixar o produto visível?</label
+                                        >
+                                        <input
+                                            class="checkbox visivel-input"
+                                            type="checkbox"
+                                            checked
+                                        />
+                                    </div>
+
+                                    <div class="container-btns">
+                                        <button
+                                            type="button"
+                                            class="cadastrar-btn btn"
+                                        >
+                                            Confirmar alterações
+                                        </button>
+                                        <button
+                                            type="button"
+                                            class="excluir-btn btn"
+                                        >
+                                            Excluir
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                     <div class="info-propostas info">
                         <h3>propostas</h3>
@@ -81,6 +291,9 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="loading">
+                <div class="sppiner"></div>
             </div>
         </main>
         <footer>
@@ -167,5 +380,6 @@
         </footer>
 
         <script type="module" src="./scripts/gerenciar.js"></script>
+        <script type="module" src="./scripts/gerenciar-produto.js"></script>
     </body>
 </html>

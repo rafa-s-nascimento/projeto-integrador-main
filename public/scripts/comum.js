@@ -154,6 +154,17 @@ const validarCookie = (cookieName) => {
     return false;
 };
 
+const setLoading = () => {
+    const loadingPage = document.querySelector(".loading");
+
+    loadingPage.classList.add("show");
+};
+const removeLoading = () => {
+    const loadingPage = document.querySelector(".loading");
+
+    loadingPage.classList.remove("show");
+};
+
 export const ajustes = {
     gerarItens,
     formatarPreco,
@@ -164,4 +175,6 @@ export const ajustes = {
     testSenha2,
     exibirInfoUsuario,
     validarCookie,
+    setLoading,
+    removeLoading,
 };
