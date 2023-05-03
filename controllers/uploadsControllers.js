@@ -14,6 +14,10 @@ const sizeCheck = (obj) => {
 };
 
 const uploadImage = async (req, res, next) => {
+    if (req.noFile) {
+        return next();
+    }
+
     if (!req.files) {
         return res.status(StatusCodes.BAD_REQUEST).send("No file Uploaded");
     }
@@ -81,7 +85,7 @@ const uploadImage = async (req, res, next) => {
         req.imagePath.push(`/uploads/${productImg.name}`);
     }
 
-    next();
+    return next();
 };
 
 module.exports = { uploadImage };

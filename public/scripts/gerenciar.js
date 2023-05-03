@@ -15,7 +15,9 @@ window.addEventListener("DOMContentLoaded", async function () {
 
             const { user, produto, propostas } = data;
 
-            gerenciarProdutos(produto);
+            sessionStorage.setItem("produtos", JSON.stringify(produto));
+
+            gerenciarProdutos();
         }
     } catch (error) {
         console.log(error);

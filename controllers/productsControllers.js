@@ -12,6 +12,7 @@ const selectImg = (arr_colection) => {
     return arr_colection.map((img) => {
         return {
             src: img.img_path,
+            id: img.id,
         };
     });
 };
@@ -75,7 +76,7 @@ const getSingleProduct = async (req, res) => {
     // o atributo raw é importante para que assim possa ser retornado um array simples de objetos.
     // nesse caso atributo where faz com que seja buscado o id que é passado como parametro na hora da requisição
     // 'select * from product where id = <id passado como parametro>
-    const singleProduct = await ProductModel.findByPk(Number(id), {
+    const singleProduct = await ProductModel.findOne({
         include: [
             { model: ValoresInput, as: "intencaoId" },
             { model: ValoresInput, as: "categoriaId" },
@@ -83,6 +84,7 @@ const getSingleProduct = async (req, res) => {
             { model: ValoresInput, as: "condicaoId" },
             { model: ImagensProduto, as: "produtoImg" },
         ],
+        where: { id: Number(id), disponivel: 1 },
     });
 
     if (!singleProduct) {
@@ -98,6 +100,7 @@ const getSingleProduct = async (req, res) => {
         condicao: singleProduct.condicaoId.valor,
         descricao: singleProduct.descricao,
         img: selectImg(singleProduct.produtoImg),
+        visivel: singleProduct.visivel,
     };
 
     return res.status(200).json({

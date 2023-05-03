@@ -48,6 +48,11 @@ const Produto = sequelize.define(
             allowNull: false,
             defaultValue: 1,
         },
+        excluido: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: 0,
+        },
     },
     { tableName: "produto" }
 );

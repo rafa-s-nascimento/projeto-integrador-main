@@ -19,6 +19,9 @@ const authenticationMiddleware = async (req, res, next) => {
         const { id, nome } = decoded;
 
         req.user = { id, nome };
+
+        console.log("passando pelo auth");
+
         next();
     } catch (error) {
         throw new UnauthenticatedError(

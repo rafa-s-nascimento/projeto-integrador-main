@@ -107,7 +107,11 @@
                             </button>
 
                             <div class="modal-content">
-                                <form action="#" class="form">
+                                <form
+                                    action="#"
+                                    class="form"
+                                    autocomplete="off"
+                                >
                                     <!-- <button
                                         type="button"
                                         class="excluir-btn btn"
@@ -124,7 +128,6 @@
                                             name="nome"
                                             type="text"
                                             maxlength="50"
-                                            required
                                         />
                                     </div>
 
@@ -135,7 +138,6 @@
                                         <select
                                             name="intencao"
                                             id=""
-                                            required
                                             class="intencao-input"
                                         >
                                             <option value="doar">Doar</option>
@@ -149,7 +151,6 @@
                                         <select
                                             name="categoria"
                                             id=""
-                                            required
                                             class="categoria-input"
                                         >
                                             <option
@@ -172,7 +173,6 @@
                                         <select
                                             name="tipo"
                                             id=""
-                                            required
                                             class="tipo-input"
                                         >
                                             <option value="livro">Livro</option>
@@ -191,7 +191,6 @@
                                         <select
                                             name="condicao"
                                             id=""
-                                            required
                                             class="condicao-input"
                                         >
                                             <option value="excelente">
@@ -214,7 +213,6 @@
                                             class="descricao descricao-input"
                                             name="descricao"
                                             maxlength="300"
-                                            required
                                         ></textarea>
                                     </div>
 
@@ -227,7 +225,6 @@
                                             name="img"
                                             type="file"
                                             multiple
-                                            required
                                         />
                                     </div>
 
@@ -325,12 +322,7 @@
                         <p class="bold titulo">fale conosco</p>
                         <form action="#">
                             <div class="single-input">
-                                <input
-                                    type="text"
-                                    id="name"
-                                    maxlength="50"
-                                    required
-                                />
+                                <input type="text" id="name" maxlength="50" />
                                 <label for="name">Nome</label>
                             </div>
 
