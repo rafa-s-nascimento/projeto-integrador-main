@@ -8,6 +8,7 @@ const {
     gerenciarPage,
     gerenciarInfoData,
     gerenciarAlterar,
+    gerenciarExcluir,
 } = require("../controllers/gerenciarControllers");
 
 const { uploadImage } = require("../controllers/uploadsControllers");
@@ -34,6 +35,11 @@ router.put(
     "/minha-conta/alterar",
 
     [checarFile, authenticationMiddleware, uploadImage, gerenciarAlterar]
+);
+router.delete(
+    "/minha-conta/alterar/excluir/:id",
+
+    [authenticationMiddleware, gerenciarExcluir]
 );
 
 router.get("/", gerenciar);

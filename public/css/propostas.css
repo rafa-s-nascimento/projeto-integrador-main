@@ -1,0 +1,110 @@
+.info-propostas .propostas-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+.info-propostas .propostas-container > div {
+    width: 100%;
+    /* background-color: var(--white-color); */
+    padding: 1rem 0;
+    text-align: center;
+    border-radius: 1rem;
+}
+
+/* .propostas-recebidas-container {
+    transition: 2s linear;
+} */
+
+.info-propostas-recebidas > p,
+.info-propostas-enviadas > p {
+    margin-bottom: 1.5rem;
+}
+
+.proposta-produto {
+    /* padding: 0 0 0.5rem 0; */
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* border: 1px solid var(--black-color); */
+    /* margin-bottom: 0.5rem; */
+
+    transition: 2s linear;
+}
+.proposta-produto .proposta-produto-info {
+    display: flex;
+    height: 3rem;
+    justify-content: space-around;
+    border-radius: 5px;
+    border: 1px solid var(--black-color);
+    background-color: var(--white-color);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.proposta-produto .proposta-produto-info:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.proposta-produto .proposta-produto-info > span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.status-btn {
+    font-size: 1rem;
+    background-color: transparent;
+    border: transparent;
+    padding: 0 1rem;
+    cursor: pointer;
+}
+
+.container-proposta-individual-produto {
+    padding: 0.5rem 0.25rem;
+    display: flex;
+    flex-direction: column;
+
+    height: 0;
+    opacity: 0;
+    z-index: -999;
+
+    /* transition: 2s; */
+}
+.container-proposta-individual-produto.show {
+    height: auto;
+    opacity: 1;
+    z-index: 0;
+
+    /* transition: 1s; */
+}
+
+.proposta-individual-produto {
+    display: flex;
+    width: 100%;
+    padding: 0 0.5rem;
+    justify-content: space-between;
+    border-radius: 5px;
+    margin-bottom: 0.25rem;
+    align-items: center;
+    border: 1px solid var(--black-color);
+    height: 3rem;
+    background-color: var(--white-color);
+    transition: 1s;
+}
+
+@media screen and (min-width: 600px) {
+    /* .info-propostas .propostas-container {
+        flex-direction: row;
+    }
+    .info-propostas .propostas-container > div {
+        width: 50%;
+    } */
+}
+
+@media screen and (min-width: 900px) {
+    .info-propostas .propostas-container {
+        flex-direction: row;
+    }
+    .info-propostas .propostas-container > div {
+        width: 50%;
+    }
+}

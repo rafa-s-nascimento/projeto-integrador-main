@@ -35,6 +35,54 @@ const filtrarColection = (arr_colection, atr1, atr2) => {
     return arr_colection.map((objeto) => objeto.dataValues);
 };
 
+const tratarProposta = (arr_propostas_recebidas, arr_propostas_efetuadas) => {
+    const id_protudo_requisitado = new Set();
+    const id_protudo_que_desejo = new Set();
+
+    arr_propostas_recebidas.filter((proposta) => {
+        id_protudo_requisitado.add(
+            proposta["proposta_produtos"][0]["id_produto_requisitado"]
+        );
+    });
+
+    arr_propostas_efetuadas.filter((proposta) => {
+        id_protudo_que_desejo.add(
+            proposta["proposta_produtos"][0]["id_produto_requisitado"]
+        );
+    });
+
+    const associarPropostasRecebidas = [...id_protudo_requisitado].map((id) => {
+        return {
+            id: id,
+            propostas: arr_propostas_recebidas.filter((proposta) => {
+                return (
+                    proposta.proposta_produtos[0]["id_produto_requisitado"] ===
+                    id
+                );
+            }),
+        };
+    });
+
+    const associarPropostasEfetuadas = [...id_protudo_que_desejo].map((id) => {
+        return {
+            id: id,
+            propostas: arr_propostas_efetuadas.filter((proposta) => {
+                return (
+                    proposta.proposta_produtos[0]["id_produto_requisitado"] ===
+                    id
+                );
+            }),
+        };
+    });
+
+    const result = {
+        recebidas: associarPropostasRecebidas,
+        efetuadas: associarPropostasEfetuadas,
+    };
+
+    return result;
+};
+
 const selectInputID = (arr, atributo, valor) => {
     console.log(valor);
     return arr.find((obj) => obj[atributo] == valor)["id"];
@@ -126,14 +174,16 @@ const gerenciarInfoData = async (req, res) => {
         "proposta_produtos"
     );
 
+    const propostasTratadas = tratarProposta(
+        propostasRecebidasInfo,
+        propostasEfetuadasInfo
+    );
+
     res.status(200).json({
         data: {
             user: user,
             produto: produtoInfo,
-            propostas: {
-                recebidas: propostasRecebidasInfo,
-                efetuadas: propostasEfetuadasInfo,
-            },
+            propostas: propostasTratadas,
         },
     });
 };
@@ -147,7 +197,7 @@ const gerenciarAlterar = async (req, res) => {
         const imagensExcluidas = JSON.parse(req.body.imgExcluidas);
         const imgId = imagensExcluidas.map((obj_img) => obj_img.id);
 
-        const result = await ImagensProduto.destroy({
+        await ImagensProduto.destroy({
             where: {
                 id: {
                     [Op.or]: imgId,
@@ -212,7 +262,30 @@ const gerenciarAlterar = async (req, res) => {
         }
     }
 
-    res.status(200).send("ok");
+    res.status(201).json({
+        seccess: true,
+        msg: "alteração realizada com sucesso!",
+    });
+};
+
+const gerenciarExcluir = async (req, res) => {
+    const { id } = req.params;
+
+    const updateValues = {
+        disponivel: 0,
+        excluido: 1,
+    };
+
+    const update = await ProductModel.update(updateValues, {
+        where: { id: Number(id) },
+    });
+
+    console.log(update);
+
+    res.status(201).json({
+        seccess: true,
+        msg: "exclusao realizada com sucesso!",
+    });
 };
 
 module.exports = {
@@ -220,4 +293,5 @@ module.exports = {
     gerenciarPage,
     gerenciarInfoData,
     gerenciarAlterar,
+    gerenciarExcluir,
 };

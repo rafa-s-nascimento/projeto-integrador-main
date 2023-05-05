@@ -82,7 +82,7 @@ const getInfoProposta = async (req, res) => {
     const produtos_requisitante = await ProductModel.findAll({
         include: [{ model: ImagensProduto, as: "produtoImg" }],
         // condicionais
-        where: { usuario_id: interessado.id },
+        where: { usuario_id: interessado.id, disponivel: 1 },
     });
 
     const pertence_ao_requisitante = validarUsuario(

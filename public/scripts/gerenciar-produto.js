@@ -1,5 +1,4 @@
 // continuar a partir daqui, construir a classe para colocar popular o form de alteração.
-
 const fecharBtn = document.querySelector(".fechar-gerenciar-produto");
 const modal = document.querySelector(".modal-gerenciar-produto");
 
@@ -114,7 +113,7 @@ class Gerenciar {
 
         // faz com que o método confirmar sempre aponte para o objeto
         this._confirmarHandler = this._confirmar.bind(this);
-        this._excluirHandler = this._confirmar.bind(this);
+        this._excluirHandler = this._excluir.bind(this);
 
         this._iniciar();
     }
@@ -303,11 +302,6 @@ class Gerenciar {
 
         console.log(alteracoes);
 
-        // testar os dados que vieram do fetch e comparar com os valores
-        // atuais do formulário para ver se ouve alterações.
-
-        // !!!! fazer pelo for está dando problemas, é melhor testa um por um !!!!
-
         this._enviar(alteracoes);
     }
 
@@ -328,20 +322,44 @@ class Gerenciar {
             form.append("id", this.id);
 
             try {
-                fetch("http://localhost:5000/gerenciar/minha-conta/alterar", {
-                    method: "PUT",
-                    body: form,
-                });
+                const response = await fetch(
+                    "http://localhost:5000/gerenciar/minha-conta/alterar",
+                    {
+                        method: "PUT",
+                        body: form,
+                    }
+                );
+
+                if (response.status === 201) {
+                    location.reload();
+                }
             } catch (error) {
                 console.log(error);
             }
 
             console.log("enviando data");
+
+            // location.reload();
         }
 
         fecharModal();
     }
-    _excluir() {
+    async _excluir() {
+        try {
+            const response = await fetch(
+                `http://localhost:5000/gerenciar/minha-conta/alterar/excluir/${this.id}`,
+                {
+                    method: "DELETE",
+                }
+            );
+
+            if (response.status === 201) {
+                location.reload();
+            }
+        } catch (error) {
+            console.log(error);
+        }
+
         console.log("excluindo produto");
         fecharModal();
     }
