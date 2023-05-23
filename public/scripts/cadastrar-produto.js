@@ -1,10 +1,9 @@
-import { requisicoes } from "./requisicao.js";
 import { ajustes } from "./comum.js";
 
 const cadastrarBtn = document.querySelector(".cadastrar-btn");
 
-window.addEventListener("load", async function () {
-    cadastrarBtn.addEventListener("click", () => {
+window.addEventListener("load", function () {
+    cadastrarBtn.addEventListener("click", async () => {
         const nome = document.querySelector(".nome-input");
         const intencao = document.querySelector(".intencao-input");
         const categoria = document.querySelector(".categoria-input");
@@ -33,14 +32,25 @@ window.addEventListener("load", async function () {
             nome.value.length !== 0 &&
             descricao.value !== 0
         ) {
-            const enviar = async () => {
-                fetch("http://localhost:5000/cadastrar-produto", {
-                    method: "POST",
-                    body: form,
-                }).catch((err) => console.log(err));
-            };
+            try {
+                const response = await fetch(
+                    `http://localhost:5000/cadastrar-produto`,
+                    {
+                        method: "POST",
+                        body: form,
+                    }
+                );
 
-            enviar();
+                if (!response.status === 201) {
+                    throw new Error("Falha ao cadastrar");
+                }
+
+                window.location.href = "/minha-conta";
+            } catch (error) {
+                this.alert(error);
+            }
+
+            // enviar();
         }
     });
 });

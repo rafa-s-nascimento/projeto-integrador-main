@@ -126,10 +126,6 @@ const setProduct = async (req, res) => {
         inputs;
     const { id: user_id } = req.user;
 
-    // console.log(inputs);
-    // console.log(req.user);
-    // console.log(imgPath);
-
     if (nome == "") {
         return res
             .status(401)

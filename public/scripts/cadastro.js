@@ -40,7 +40,7 @@ form.addEventListener("submit", (e) => {
         };
 
         const confirmarCadastro = async () => {
-            const setData = await fetch("http://localhost:5000/cadastro", {
+            const setData = await fetch(`http://localhost:5000/cadastro`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

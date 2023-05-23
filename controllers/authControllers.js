@@ -1,4 +1,3 @@
-const CustomAPIError = require("../errors/custom-error");
 const path = require("path");
 
 const UsuarioModel = require("../models/usuarioModel");

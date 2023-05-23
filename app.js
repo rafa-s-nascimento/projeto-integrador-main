@@ -1,9 +1,16 @@
 const express = require("express");
 const app = express();
+// const cors = require("cors");
 require("dotenv").config();
 
 const fileUpload = require("express-fileupload");
 const cookieParser = require("cookie-parser");
+const cloudinary = require("cloudinary").v2;
+cloudinary.config({
+    cloud_name: process.env.CLOUD_NAME,
+    api_key: process.env.CLOUD_API_KEY,
+    api_secret: process.env.CLOUD_API_SECRET,
+});
 
 // rotas
 const products = require("./routes/productsRouter");
@@ -15,12 +22,14 @@ const minhaConta = require("./routes/minha-contaRouter");
 
 // decodificadores
 app.use(express.json());
-app.use(fileUpload());
+app.use(fileUpload({ useTempFiles: true }));
 app.use(cookieParser());
 
 // erros
 const notFoundMiddleware = require("./middleware/not-found");
 const errorHandlerMiddleware = require("./middleware/not-found");
+
+// app.use(cors({ origin: false }));
 
 // responsável por responder as requisições de itens estaticos
 app.use(express.static("./public"));
@@ -35,8 +44,8 @@ app.use("/login", login);
 app.use("/cadastro", cadastro);
 
 // responsável por direcionar requisições de gerenciamento
-app.use("/gerenciar", gerenciar);
 app.use("/minha-conta", minhaConta);
+app.use("/gerenciar", gerenciar);
 
 app.use("/cadastrar-produto", cadastroProduto);
 

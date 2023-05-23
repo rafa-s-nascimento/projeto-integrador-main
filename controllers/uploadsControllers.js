@@ -1,5 +1,4 @@
 const path = require("path");
-
 const { StatusCodes } = require("http-status-codes");
 
 const isArray = (obj) => {
@@ -74,14 +73,11 @@ const uploadImage = async (req, res, next) => {
     } else {
         productImg.name =
             new Date().getTime() + extensao.exec(productImg.name)[0];
-
         const imagePath = path.join(
             __dirname,
             "../public/uploads/" + `${productImg.name}`
         );
-
         await productImg.mv(imagePath);
-
         req.imagePath.push(`/uploads/${productImg.name}`);
     }
 

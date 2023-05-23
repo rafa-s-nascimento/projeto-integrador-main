@@ -1,45 +1,6 @@
 import { ajustes } from "./comum.js";
 const { validarCookie } = ajustes;
 
-// const data = {
-//     usuario: {
-//         usuario_id: 45,
-//         usuario_nome: "Sabrino",
-//         usuario_img: "./img/columbian-roast.jpeg",
-//     },
-//     produtos: [
-//         // {id: 126, nome: 'cadeira', descricao: 'cadeira de madeira', img: './img/folder-img.jpeg'},
-//         {
-//             id: 198,
-//             nome: "ariedac",
-//             descricao: "madeira de cadeira",
-//             img: "./img/small.jpeg",
-//         },
-//         {
-//             id: 37,
-//             nome: "edacari",
-//             descricao: "madeira de madeira",
-//             img: "./img/big.jpeg",
-//         },
-//     ],
-// };
-
-// const dataExample = {
-//     usuario: {
-//         usuario_id: 1456,
-//         usuario_nome: "Carolino",
-//         usuario_img: "./img/house-blend.jpeg",
-//     },
-//     produtos: [
-//         {
-//             id: 9864,
-//             nome: "Fita Original",
-//             descricao: "Fita original toda bagaçada",
-//             img: "./img/big.jpeg",
-//         },
-//     ],
-// };
-
 const acordoBtn = document.querySelector(".acordo-btn");
 const fecharModal = document.querySelector(".close-btn");
 const modal = document.querySelector(".modal");
@@ -243,7 +204,7 @@ class Proposta {
 
         try {
             const response = await fetch(
-                "http://localhost:5000/products/proposta",
+                `http://localhost:5000/products/proposta`,
                 {
                     method: "POST",
                     headers: {

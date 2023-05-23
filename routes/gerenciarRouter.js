@@ -7,8 +7,11 @@ const {
     gerenciar,
     gerenciarPage,
     gerenciarInfoData,
-    gerenciarAlterar,
-    gerenciarExcluir,
+    gerenciarProdutoAlterar,
+    gerenciarProdutoExcluir,
+    gerenciarPropostaRecusar,
+    gerenciarPropostaCancelar,
+    gerenciarPropostaAceitar,
 } = require("../controllers/gerenciarControllers");
 
 const { uploadImage } = require("../controllers/uploadsControllers");
@@ -29,21 +32,33 @@ const checarFile = (req, res, next) => {
     next();
 };
 
-// rota protegida
-
 router.put(
     "/minha-conta/alterar",
 
-    [checarFile, authenticationMiddleware, uploadImage, gerenciarAlterar]
+    [checarFile, authenticationMiddleware, uploadImage, gerenciarProdutoAlterar]
 );
 router.delete(
     "/minha-conta/alterar/excluir/:id",
 
-    [authenticationMiddleware, gerenciarExcluir]
+    [authenticationMiddleware, gerenciarProdutoExcluir]
 );
 
-router.get("/", gerenciar);
-router.get("/minha-conta", [authenticationMiddleware, gerenciarPage]);
+router.put(
+    "/minha-conta/recusar/:id",
+
+    [authenticationMiddleware, gerenciarPropostaRecusar]
+);
+router.put(
+    "/minha-conta/cancelar/:id",
+
+    [authenticationMiddleware, gerenciarPropostaCancelar]
+);
+router.put(
+    "/minha-conta/aceitar/:id",
+
+    [authenticationMiddleware, gerenciarPropostaAceitar]
+);
+
 router.get("/minha-conta/data", [authenticationMiddleware, gerenciarInfoData]);
 
 module.exports = router;

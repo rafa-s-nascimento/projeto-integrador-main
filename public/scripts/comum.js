@@ -65,7 +65,6 @@ function exibirInfoUsuario() {
     });
 
     if (split) {
-        console.log("doqwdokqwdkqwokd");
         const id = split[0][1];
         const nome = split[1][1];
         const img = split[2][1].replace(/%2F/g, "/");
@@ -165,6 +164,8 @@ const removeLoading = () => {
     loadingPage.classList.remove("show");
 };
 
+const url = "https://thematic-land-386000.uc.r.appspot.com";
+
 export const ajustes = {
     gerarItens,
     formatarPreco,
@@ -177,4 +178,5 @@ export const ajustes = {
     validarCookie,
     setLoading,
     removeLoading,
+    url,
 };

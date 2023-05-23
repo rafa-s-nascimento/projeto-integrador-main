@@ -4,7 +4,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     const produtosContainer = document.querySelector(".produtos-container");
 
     try {
-        const response = await fetch("http://localhost:5000/products?limit=20");
+        const response = await fetch(`http://localhost:5000/products?limit=20`);
 
         if (response.status === 200) {
             const { data } = await response.json();

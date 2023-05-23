@@ -89,12 +89,12 @@ const selectInputID = (arr, atributo, valor) => {
 };
 
 const gerenciar = (req, res) => {
-    res.status(200).redirect("/minha-conta");
+    return res.status(200).redirect("/minha-conta");
 };
 
 const gerenciarPage = (req, res) => {
     const pathFile = path.join(__dirname, "../private/gerenciar.html");
-    res.status(302).sendFile(pathFile);
+    return res.status(302).sendFile(pathFile);
 };
 
 const gerenciarInfoData = async (req, res) => {
@@ -103,13 +103,15 @@ const gerenciarInfoData = async (req, res) => {
     const { id } = req.user;
 
     const userInfo = await UsuarioModel.findByPk(id, {
+        attributes: ["id", "nome", "email"],
         include: [
             {
                 model: Avatar,
             },
             {
-                attributes: ["id", "nome", "visivel", "disponivel"],
                 model: ProductModel,
+                required: false,
+                attributes: ["id", "nome", "visivel", "disponivel"],
                 include: [
                     {
                         attributes: ["img_path", "id"],
@@ -125,23 +127,40 @@ const gerenciarInfoData = async (req, res) => {
                 where: { excluido: 0 },
             },
             {
-                attributes: ["id", "data_proposta", "proposta_ativa"],
                 model: PropostaDeTroca,
                 as: "propostaEfetuadaID",
+                required: false,
+                attributes: [
+                    "id",
+                    "data_proposta",
+                    "proposta_ativa",
+                    "proposta_aceita",
+                    "proposta_recusada",
+                    "proposta_cancelada",
+                ],
                 include: [
                     {
+                        model: PropostaProdutos,
+                        required: false,
                         attributes: [
                             "id_produto_requisitado",
                             "id_produto_oferecido",
                         ],
-                        model: PropostaProdutos,
                     },
                 ],
             },
             {
-                attributes: ["id", "data_proposta", "proposta_ativa"],
                 model: PropostaDeTroca,
                 as: "propostaRecebidaID",
+                required: false,
+                attributes: [
+                    "id",
+                    "data_proposta",
+                    "proposta_ativa",
+                    "proposta_aceita",
+                    "proposta_recusada",
+                    "proposta_cancelada",
+                ],
                 include: [{ model: PropostaProdutos }],
             },
         ],
@@ -188,9 +207,9 @@ const gerenciarInfoData = async (req, res) => {
     });
 };
 
-const gerenciarAlterar = async (req, res) => {
-    console.log("chegando ao alterar!");
+// gtavo
 
+const gerenciarProdutoAlterar = async (req, res) => {
     const updateValues = {};
 
     if (req.body.imgExcluidas) {
@@ -268,7 +287,7 @@ const gerenciarAlterar = async (req, res) => {
     });
 };
 
-const gerenciarExcluir = async (req, res) => {
+const gerenciarProdutoExcluir = async (req, res) => {
     const { id } = req.params;
 
     const updateValues = {
@@ -288,10 +307,171 @@ const gerenciarExcluir = async (req, res) => {
     });
 };
 
+const gerenciarPropostaRecusar = async (req, res) => {
+    const { id } = req.params;
+
+    const proposta = await PropostaDeTroca.findByPk(Number(id), {
+        attributes: ["id_dono_do_produto"],
+    });
+
+    if (req.user.id !== proposta.id_dono_do_produto) {
+        return res.status(400).json({
+            success: false,
+            msg: "Falha ao recusar proposta",
+        });
+    }
+
+    const update = await PropostaDeTroca.update(
+        { proposta_recusada: 1, proposta_ativa: 0 },
+        {
+            where: { id: Number(id) },
+        }
+    );
+
+    console.log(id);
+
+    res.status(201).json({
+        success: true,
+        msg: "proposta recusada com sucesso!",
+    });
+};
+
+const gerenciarPropostaCancelar = async (req, res) => {
+    const { id } = req.params;
+
+    const proposta = await PropostaDeTroca.findByPk(Number(id), {
+        attributes: ["id_usuario_interessado"],
+    });
+
+    console.log(proposta);
+
+    if (req.user.id !== proposta.id_usuario_interessado) {
+        return res.status(400).json({
+            success: false,
+            msg: "Falha ao cancelar proposta",
+        });
+    }
+
+    const update = await PropostaDeTroca.update(
+        { proposta_cancelada: 1, proposta_ativa: 0 },
+        {
+            where: { id: Number(id) },
+        }
+    );
+
+    console.log(update);
+
+    res.status(201).json({
+        success: true,
+        msg: "proposta cancelada com sucesso!",
+    });
+};
+const gerenciarPropostaAceitar = async (req, res) => {
+    const { id } = req.params;
+
+    const proposta = await PropostaDeTroca.findByPk(Number(id), {
+        attributes: ["id_dono_do_produto"],
+        include: [
+            {
+                model: PropostaProdutos,
+                attributes: ["id_produto_requisitado", "id_produto_oferecido"],
+                include: [
+                    {
+                        attributes: ["id", "disponivel"],
+                        model: ProductModel,
+                        as: "produtosOferecidosID",
+                    },
+                ],
+            },
+        ],
+    });
+
+    if (req.user.id !== proposta.id_dono_do_produto) {
+        return res.status(400).json({
+            success: false,
+            msg: "Falha ao aceitar proposta",
+        });
+    }
+
+    const idProdutoRequisitado =
+        proposta.proposta_produtos[0].id_produto_requisitado;
+    const idProdutosOferecidos = proposta.proposta_produtos.map(
+        (produto) => produto.id_produto_oferecido
+    );
+
+    const idsProdutos = [...idProdutosOferecidos, idProdutoRequisitado];
+
+    const validarProduto = await ProductModel.findAll({
+        attributes: ["id"],
+        where: {
+            id: idsProdutos,
+            [Op.and]: {
+                disponivel: 1,
+            },
+        },
+    });
+
+    if (validarProduto.length !== idsProdutos.length) {
+        return res.status(400).json({
+            success: false,
+            msg: "Falha ao aceitar proposta",
+        });
+    }
+
+    const updatePropostaPrincipal = await PropostaDeTroca.update(
+        { proposta_aceita: 1, proposta_ativa: 0 },
+        {
+            where: { id: Number(id) },
+        }
+    );
+
+    const updateProdutos = await ProductModel.update(
+        { disponivel: 0 },
+        {
+            where: { id: idsProdutos },
+        }
+    );
+
+    const propostasSecundarias = await PropostaProdutos.findAll({
+        attributes: ["id_proposta"],
+        where: { id_produto_oferecido: idsProdutos },
+    });
+
+    const idsPropostas = propostasSecundarias.map(
+        (proposta) => proposta.id_proposta
+    );
+
+    console.log(idsPropostas);
+    console.log(propostasSecundarias);
+
+    const propostasSecundariasUpdate = await PropostaDeTroca.update(
+        {
+            proposta_cancelada: 1,
+            proposta_ativa: 0,
+        },
+        {
+            where: {
+                id: idsPropostas,
+                [Op.and]: {
+                    proposta_ativa: 1,
+                },
+            },
+        }
+    );
+
+    res.status(201).json({
+        success: true,
+        msg: "proposta aceita!",
+    });
+};
+
 module.exports = {
     gerenciar,
     gerenciarPage,
     gerenciarInfoData,
-    gerenciarAlterar,
-    gerenciarExcluir,
+    gerenciarProdutoAlterar,
+    gerenciarProdutoExcluir,
+    gerenciarPropostaRecusar,
+    gerenciarPropostaCancelar,
+    gerenciarPropostaAceitar,
 };

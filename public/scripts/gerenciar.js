@@ -8,7 +8,7 @@ window.addEventListener("DOMContentLoaded", async function () {
     ajustes.setLoading();
     try {
         const response = await fetch(
-            "http://localhost:5000/gerenciar/minha-conta/data"
+            `http://localhost:5000/gerenciar/minha-conta/data`
         );
 
         if (response.status === 200) {

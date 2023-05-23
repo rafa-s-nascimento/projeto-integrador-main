@@ -1,3 +1,5 @@
+import { ajustes } from "./comum.js";
+
 const urlSearch = window.location.search;
 
 const containerImgs = document.querySelector(".container-img-miniatura");

@@ -20,7 +20,7 @@ form.addEventListener("submit", (e) => {
         const data = { email: login.value, password: password.value };
 
         const logar = async () => {
-            const setData = await fetch("http://localhost:5000/login", {
+            const setData = await fetch(`http://localhost:5000/login`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -49,21 +49,4 @@ form.addEventListener("submit", (e) => {
 
         logar();
     }
-
-    // fetch(
-    //     `http://localhost:3000/login?email=${login.value}&senha=${password.value}`
-    // )
-    //     .then((response) => {
-    //         return response.json();
-    //     })
-    //     .catch((err) => {
-    //         console.log("this is the catch " + err);
-    //     })
-    //     .then((response) => {
-    //         if (response.length > 0) {
-    //             window.location.href = "./admin-produtos.html";
-    //         } else {
-    //             console.log("Usuário ou senha invalidos");
-    //         }
-    //     });
 });

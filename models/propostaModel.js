@@ -27,6 +27,12 @@ const PropostaDeTroca = sequelize.define(
         proposta_ativa: {
             type: DataTypes.BOOLEAN,
         },
+        proposta_recusada: {
+            type: DataTypes.BOOLEAN,
+        },
+        proposta_cancelada: {
+            type: DataTypes.BOOLEAN,
+        },
     },
     { tableName: "proposta_troca", timestamps: false }
 );

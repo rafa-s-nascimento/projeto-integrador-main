@@ -1,4 +1,5 @@
-// continuar a partir daqui, construir a classe para colocar popular o form de alteração.
+import { ajustes } from "./comum.js";
+
 const fecharBtn = document.querySelector(".fechar-gerenciar-produto");
 const modal = document.querySelector(".modal-gerenciar-produto");
 
@@ -323,7 +324,7 @@ class Gerenciar {
 
             try {
                 const response = await fetch(
-                    "http://localhost:5000/gerenciar/minha-conta/alterar",
+                    `http://localhost:5000/gerenciar/minha-conta/alterar`,
                     {
                         method: "PUT",
                         body: form,
