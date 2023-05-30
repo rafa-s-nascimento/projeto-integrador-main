@@ -84,12 +84,8 @@ const getSingleProduct = async (req, res) => {
             { model: ValoresInput, as: "condicaoId" },
             { model: ImagensProduto, as: "produtoImg" },
         ],
-        where: { id: Number(id), disponivel: 1 },
+        where: { id: Number(id) },
     });
-
-    if (!singleProduct) {
-        return res.status(200).json({ msg: "not found" });
-    }
 
     const produto = {
         id: singleProduct.id,
@@ -101,6 +97,7 @@ const getSingleProduct = async (req, res) => {
         descricao: singleProduct.descricao,
         img: selectImg(singleProduct.produtoImg),
         visivel: singleProduct.visivel,
+        disponivel: singleProduct.disponivel,
     };
 
     return res.status(200).json({

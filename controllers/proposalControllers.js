@@ -96,9 +96,16 @@ const getInfoProposta = async (req, res) => {
             .send("Não é permitido fazer propostas para si mesmo");
     }
 
-    const produto_requisitado = await ProductModel.findByPk(id_produto, {
+    const produto_requisitado = await ProductModel.findOne({
         include: [{ model: ImagensProduto, as: "produtoImg" }],
+        where: { id: id_produto, disponivel: 1 },
     });
+
+    if (!produto_requisitado) {
+        return res
+            .status(400)
+            .send("Este produto não pode receber propostas!!");
+    }
 
     res.status(200).json({
         proprietario: {

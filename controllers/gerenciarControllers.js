@@ -1,5 +1,5 @@
 const path = require("path");
-const { Op, where } = require("sequelize");
+const { Op } = require("sequelize");
 
 const ImagensProduto = require("../models/imagensProdutoModels");
 const ProductModel = require("../models/productModel");
@@ -8,6 +8,7 @@ const PropostaDeTroca = require("../models/propostaModel");
 const UsuarioModel = require("../models/usuarioModel");
 const PropostaProdutos = require("../models/propostaProdutosModel");
 const Avatar = require("../models/avatarModels");
+const PropostaChat = require("../models/propostaChatModel");
 
 // corrigir essa função.
 // talvez guardar os atributos que venham após o primeiro no rest operator e
@@ -81,6 +82,58 @@ const tratarProposta = (arr_propostas_recebidas, arr_propostas_efetuadas) => {
     };
 
     return result;
+};
+
+const tratarMensagens = (arr_colection) => {
+    const diasAgrupados = arr_colection.reduce((acc, curr) => {
+        const day = curr.data_hora_mensagem.getDate();
+        let month = curr.data_hora_mensagem.getMonth() + 1;
+        const year = curr.data_hora_mensagem.getFullYear();
+
+        if (month < 10) {
+            month = "0" + month;
+        }
+
+        let data = `${day}-${month}-${year}`;
+
+        const hoje = new Date();
+        const ontem = new Date(hoje);
+        ontem.setDate(ontem.getDate() - 1);
+
+        if (
+            hoje.getDate() === day &&
+            hoje.getMonth() === curr.data_hora_mensagem.getMonth() &&
+            hoje.getFullYear() === year
+        ) {
+            data = "hoje";
+        }
+        if (
+            ontem.getDate() === day &&
+            ontem.getMonth() === curr.data_hora_mensagem.getMonth() &&
+            ontem.getFullYear() === year
+        ) {
+            data = "ontem";
+        }
+
+        if (!acc[data]) {
+            acc[data] = [];
+        }
+
+        const hours = curr.data_hora_mensagem.getHours();
+        const minutes = curr.data_hora_mensagem.getMinutes();
+
+        acc[data].push({
+            remetente: curr.id_remetente,
+            mensagem: curr.mensagem,
+
+            data: data,
+            hora: `${hours}:${minutes}`,
+        });
+
+        return acc;
+    }, {});
+
+    return diasAgrupados;
 };
 
 const selectInputID = (arr, atributo, valor) => {
@@ -206,8 +259,6 @@ const gerenciarInfoData = async (req, res) => {
         },
     });
 };
-
-// gtavo
 
 const gerenciarProdutoAlterar = async (req, res) => {
     const updateValues = {};
@@ -465,6 +516,92 @@ const gerenciarPropostaAceitar = async (req, res) => {
     });
 };
 
+const gerenciarInfoDataChat = async (req, res) => {
+    const { id } = req.params;
+    const userInfo = req.user;
+
+    const propostaInfo = await PropostaDeTroca.findByPk(Number(id), {
+        attributes: ["id_dono_do_produto", "id_usuario_interessado"],
+        include: [
+            {
+                model: PropostaChat,
+                attributes: ["id_remetente", "mensagem", "data_hora_mensagem"],
+            },
+        ],
+    });
+
+    if (
+        propostaInfo.id_dono_do_produto !== userInfo.id &&
+        propostaInfo.id_usuario_interessado !== userInfo.id
+    ) {
+        return res.status(401).json({
+            msg: "Falha ao receber os dados. Usuário não autorizado!",
+        });
+    }
+
+    const mensagem = tratarMensagens(propostaInfo.proposta_chats);
+
+    const data = {
+        users: {
+            remetente: userInfo.id,
+            destinatario:
+                propostaInfo.id_dono_do_produto == userInfo.id
+                    ? propostaInfo.id_usuario_interessado
+                    : propostaInfo.id_dono_do_produto,
+        },
+        messages: mensagem,
+    };
+
+    res.status(200).json({ msg: "success", data: data });
+};
+
+const gerenciarInfoDataChatPost = async (req, res) => {
+    const { id } = req.params;
+    const userInfo = req.user;
+    const formInfo = req.body;
+
+    const propostaInfo = await PropostaDeTroca.findByPk(Number(id), {
+        attributes: ["id_dono_do_produto", "id_usuario_interessado"],
+    });
+
+    console.log(formInfo);
+
+    if (
+        propostaInfo.id_dono_do_produto !== Number(formInfo.remente) &&
+        propostaInfo.id_usuario_interessado !== Number(formInfo.remente) &&
+        propostaInfo.id_dono_do_produto !== Number(formInfo.destinatario) &&
+        propostaInfo.id_usuario_interessado !== Number(formInfo.destinatario)
+    ) {
+        return res.status(401).json({
+            msg: "Falha ao receber os dados. Usuário não autorizado!",
+        });
+    }
+
+    await PropostaChat.create({
+        id_remetente: Number(formInfo.remetente),
+        id_destinatario: Number(formInfo.destinatario),
+        id_proposta: Number(formInfo.proposta),
+        mensagem: formInfo.mensagem,
+    });
+
+    const propostaInfoRetorno = await PropostaDeTroca.findByPk(Number(id), {
+        include: [
+            {
+                model: PropostaChat,
+                attributes: ["id_remetente", "mensagem", "data_hora_mensagem"],
+            },
+        ],
+    });
+
+    const mensagem = tratarMensagens(propostaInfoRetorno.proposta_chats);
+
+    const data = {
+        messages: mensagem,
+    };
+
+    res.status(201).json({ msg: "success", data: data });
+};
+
 module.exports = {
     gerenciar,
     gerenciarPage,
@@ -474,4 +611,6 @@ module.exports = {
     gerenciarPropostaRecusar,
     gerenciarPropostaCancelar,
     gerenciarPropostaAceitar,
+    gerenciarInfoDataChat,
+    gerenciarInfoDataChatPost,
 };

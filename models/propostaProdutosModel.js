@@ -39,7 +39,7 @@ PropostaProdutos.belongsTo(Proposta, {
 Proposta.hasMany(PropostaProdutos, {
     constraint: true,
     foreignKey: "id_proposta",
-    foreignKeyConstraint: { name: "" },
+    foreignKeyConstraint: { name: "proposta_produtos_ibfk_1" },
 });
 
 PropostaProdutos.belongsTo(Produto, {
