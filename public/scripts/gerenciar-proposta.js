@@ -312,10 +312,12 @@ class Proposta {
 
         const verProposta = document.createElement("span");
         verProposta.classList.add("proposta-individual-produto-ver-proposta");
+        const br = document.createElement("br");
 
         const i = document.createElement("i");
         i.classList.add("fa-solid", "fa-magnifying-glass");
         verProposta.appendChild(i);
+        verProposta.appendChild(br);
         verProposta.innerHTML += "visualizar";
 
         article.appendChild(verProposta);
@@ -477,15 +479,13 @@ class Chat {
             }
         }
 
+        this._chatScroll();
+    }
+
+    _chatScroll() {
         setTimeout(() => {
             this.messagesContainerHtml.scrollTop =
                 this.messagesContainerHtml.scrollHeight;
-        }, 0);
-    }
-
-    _scrollTest() {
-        setTimeout(() => {
-            document.querySelector(".chat-messages").scrollTop = 999;
         }, 0);
     }
 

@@ -10,6 +10,21 @@
 /* end topo */
 
 /* main */
+.info {
+    background: #fff;
+    border-radius: 1rem;
+    padding: 0 0.25rem;
+    border: 1px solid;
+    margin-bottom: 1rem;
+}
+.info > h3 {
+    background-color: var(--yellow-color);
+    margin-left: -0.25rem;
+    margin-right: -0.25rem;
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+}
+
 .info h3,
 a {
     padding: 1rem 0;
@@ -24,12 +39,13 @@ a {
 
 .produtos-container {
     min-height: 100px;
-    width: 90vw;
+    /* width: 90vw; */
     margin: 1rem 0;
     max-width: 1200px;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
+    gap: 0.5rem;
+    row-gap: 1rem;
     text-align: left;
 }
 
@@ -39,7 +55,7 @@ a {
 }
 
 .produtos-container .item {
-    height: 200px;
+    height: 220px;
     width: auto;
     max-width: 200px;
     overflow: hidden;
@@ -64,7 +80,7 @@ a {
 .produtos-container .item .container-img {
     height: 50%;
     background-color: var(--black-color2);
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.45rem;
 }
 .produtos-container .item .container-img img {
     display: block;
@@ -78,7 +94,7 @@ a {
     width: calc(100% - 1px);
     letter-spacing: 1px;
     text-transform: capitalize;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.35rem;
     color: var(--black-color2);
     margin-left: 0.25rem;
     margin-right: 0.25rem;
@@ -90,7 +106,7 @@ a {
 }
 .produtos-container .item .tag-produto {
     color: var(--gray-color2);
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.35rem;
     margin-left: 0.25rem;
     margin-right: 0.25rem;
 }
@@ -115,6 +131,14 @@ a {
 .produtos-container .item .container-id > span span {
     font-weight: 600;
     font-size: 0.75rem;
+}
+
+.cadastrar-produto-anc .btn {
+    background-color: var(--yellow-color);
+    font-weight: 600;
+    width: auto;
+    border: none;
+    padding: 0 1rem;
 }
 
 /* end produtos do usuario */
@@ -375,6 +399,14 @@ option:hover {
 @media screen and (min-width: 600px) {
     .produtos-container {
         grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+    }
+    .info {
+        padding: 0 0.5rem;
+    }
+    .info > h3 {
+        margin-left: -0.5rem;
+        margin-right: -0.5rem;
     }
 }
 @media screen and (min-width: 800px) {
@@ -386,8 +418,15 @@ option:hover {
     .produtos-container {
         grid-template-columns: repeat(5, 1fr);
     }
+    .info {
+        padding: 0 1rem;
+    }
+    .info > h3 {
+        margin-left: -1rem;
+        margin-right: -1rem;
+    }
 }
-@media screen and (min-width: 1000px) {
+@media screen and (min-width: 1200px) {
     .produtos-container {
         grid-template-columns: repeat(6, 1fr);
     }

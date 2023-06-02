@@ -5,8 +5,8 @@ const modal = document.querySelector(".modal-gerenciar-produto");
 
 let gerenciar = null;
 
-export const gerenciarProdutos = (data) => {
-    exibirProdutos(data);
+export const gerenciarProdutos = () => {
+    exibirProdutos();
 };
 
 const fecharModal = () => {

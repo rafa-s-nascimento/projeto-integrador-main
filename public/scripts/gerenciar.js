@@ -1,4 +1,5 @@
 import { gerenciarProdutos } from "./gerenciar-produto.js";
+import { gerenciarUsuario } from "./gerenciar-usuario.js";
 import { tratarProposta } from "./gerenciar-proposta.js";
 import { ajustes } from "./comum.js";
 
@@ -17,6 +18,8 @@ window.addEventListener("DOMContentLoaded", async function () {
             const { user, produto, propostas } = data;
 
             const { recebidas, efetuadas } = propostas;
+
+            gerenciarUsuario(user);
 
             sessionStorage.setItem("produtos", JSON.stringify(produto));
 
