@@ -1,5 +1,5 @@
 const path = require("path");
-const { Op } = require("sequelize");
+const { Op, where } = require("sequelize");
 
 const ImagensProduto = require("../models/imagensProdutoModels");
 const ProductModel = require("../models/productModel");
@@ -602,6 +602,43 @@ const gerenciarInfoDataChatPost = async (req, res) => {
     res.status(201).json({ msg: "success", data: data });
 };
 
+const gerenciarUsuarioUpdateAvatar = async (req, res) => {
+    const avatar = req.body;
+    const user = req.user;
+
+    if (!avatar) {
+        return res.status(400).json({ msg: "Falha ao modificar avatar..." });
+    }
+
+    const avatarId = await Avatar.findOne({
+        attributes: ["id"],
+        where: { img_path: avatar.src },
+    });
+
+    if (!avatarId) {
+        return res
+            .status(400)
+            .json({ msg: "Não foi possível encontrar o id do avatar" });
+    }
+
+    const update = await UsuarioModel.update(
+        {
+            img_id: avatarId.id,
+        },
+        {
+            where: {
+                id: user.id,
+            },
+        }
+    );
+
+    console.log(update);
+
+    return res
+        .status(201)
+        .json({ msg: "alteração feita com sucesso!!", data: avatarId.id });
+};
+
 module.exports = {
     gerenciar,
     gerenciarPage,
@@ -613,4 +650,5 @@ module.exports = {
     gerenciarPropostaAceitar,
     gerenciarInfoDataChat,
     gerenciarInfoDataChatPost,
+    gerenciarUsuarioUpdateAvatar,
 };

@@ -12,6 +12,7 @@ const {
     gerenciarPropostaRecusar,
     gerenciarPropostaCancelar,
     gerenciarPropostaAceitar,
+    gerenciarUsuarioUpdateAvatar,
 } = require("../controllers/gerenciarControllers");
 
 const { uploadImage } = require("../controllers/uploadsControllers");
@@ -68,6 +69,11 @@ router.get("/minha-conta/data/chat/:id", [
 router.post("/minha-conta/data/chat/:id", [
     authenticationMiddleware,
     gerenciarInfoDataChatPost,
+]);
+
+router.put("/minha-conta/update-avatar", [
+    authenticationMiddleware,
+    gerenciarUsuarioUpdateAvatar,
 ]);
 
 module.exports = router;

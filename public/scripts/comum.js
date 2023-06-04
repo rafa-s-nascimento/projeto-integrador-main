@@ -1,3 +1,5 @@
+const url = "https://thematic-land-386000.uc.r.appspot.com";
+
 function formatarPreco(valor) {
     let pattern = /\d+\.\d{2}/;
     let newValue = valor.toString();
@@ -47,7 +49,7 @@ function redirecionarAdm() {
     window.location = "./gerenciar.html";
 }
 
-function exibirInfoUsuario() {
+async function exibirInfoUsuario() {
     const loginBtn = document.querySelector(".link-login-btn");
     const perfilData = document.querySelector(".perfil-data");
     const perfilAvatar = document.querySelector(".perfil-avatar");
@@ -76,8 +78,24 @@ function exibirInfoUsuario() {
 
         perfilData.addEventListener("click", redirecionarAdm);
 
-        perfilAvatar.src = img;
-        perfilNome.textContent = nome.replaceAll("%20", " ");
+        try {
+            const response = await fetch(
+                `http://localhost:5000/minha-conta/usuario-info`
+            );
+
+            if (response.status !== 200) {
+                const { msg } = await response.json();
+
+                throw new Error(msg);
+            }
+
+            const { data } = await response.json();
+
+            perfilNome.textContent = data.nome;
+            perfilAvatar.src = data.img;
+        } catch (error) {
+            console.log(error);
+        }
 
         return;
     }
@@ -163,8 +181,6 @@ const removeLoading = () => {
 
     loadingPage.classList.remove("show");
 };
-
-const url = "https://thematic-land-386000.uc.r.appspot.com";
 
 export const ajustes = {
     gerarItens,

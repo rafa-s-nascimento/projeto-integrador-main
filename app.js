@@ -12,6 +12,8 @@ cloudinary.config({
     api_secret: process.env.CLOUD_API_SECRET,
 });
 
+const { avatars } = require("./controllers/avatarsController.js");
+
 // rotas
 const products = require("./routes/productsRouter");
 const login = require("./routes/loginRouter");
@@ -48,6 +50,8 @@ app.use("/minha-conta", minhaConta);
 app.use("/gerenciar", gerenciar);
 
 app.use("/cadastrar-produto", cadastroProduto);
+
+app.use("/avatars", avatars);
 
 // resposáveis por enviar mensagens de erro.
 app.use(notFoundMiddleware);
