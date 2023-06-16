@@ -50,14 +50,19 @@ const exibirProdutos = () => {
                                     ${nome}
                                 </p>
                                 <div class="tag-produto">
-                                    <p class="categoria-produto">${
-                                        visivel ? "visível" : "oculto"
-                                    }</p>
-                                    <p class="tipo-produto">${
-                                        disponivel
-                                            ? "disponível"
-                                            : "indisponível"
-                                    }</p>
+                                    <p class="categoria-produto ${
+                                        visivel ? "c-green" : ""
+                                    }">${visivel ? "visível" : "oculto"}</p>
+
+                                    <p class="tipo-produto ${
+                                        disponivel ? "c-green" : "c-orange"
+                                    }">
+                                        ${
+                                            disponivel
+                                                ? "disponível"
+                                                : "indisponível"
+                                        }
+                                    </p>
                                 </div>
 
                                 <div class="container-id">                                

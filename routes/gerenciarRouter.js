@@ -4,6 +4,7 @@ const router = express.Router();
 const { authenticationMiddleware } = require("../middleware/auth");
 
 const {
+    gerenciarInfoDataProposta,
     gerenciarInfoData,
     gerenciarInfoDataChat,
     gerenciarInfoDataChatPost,
@@ -60,6 +61,10 @@ router.put(
     [authenticationMiddleware, gerenciarPropostaAceitar]
 );
 
+router.get("/minha-conta/data/proposta/:id", [
+    authenticationMiddleware,
+    gerenciarInfoDataProposta,
+]);
 router.get("/minha-conta/data", [authenticationMiddleware, gerenciarInfoData]);
 
 router.get("/minha-conta/data/chat/:id", [

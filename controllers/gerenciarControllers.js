@@ -263,6 +263,20 @@ const gerenciarInfoData = async (req, res) => {
 const gerenciarProdutoAlterar = async (req, res) => {
     const updateValues = {};
 
+    const verificarDisponibilidade = await ProductModel.findByPk(
+        Number(req.body.id),
+        {
+            attributes: ["disponivel"],
+        }
+    );
+
+    if (!verificarDisponibilidade.disponivel) {
+        return res.status(400).json({
+            seccess: false,
+            msg: "não é permitido fazer a alterações em um produto que faz parte de uma negociação.",
+        });
+    }
+
     if (req.body.imgExcluidas) {
         const imagensExcluidas = JSON.parse(req.body.imgExcluidas);
         const imgId = imagensExcluidas.map((obj_img) => obj_img.id);
@@ -355,6 +369,154 @@ const gerenciarProdutoExcluir = async (req, res) => {
     res.status(201).json({
         seccess: true,
         msg: "exclusao realizada com sucesso!",
+    });
+};
+
+const gerenciarInfoDataProposta = async (req, res) => {
+    console.log(req.user);
+    console.log(req.params);
+
+    const propostaId = Number(req.params.id);
+
+    const proposta = await PropostaDeTroca.findByPk(propostaId, {
+        attributes: ["id_dono_do_produto", "id_usuario_interessado"],
+    });
+
+    const usuario1 = proposta.id_dono_do_produto;
+    const usuario2 = proposta.id_usuario_interessado;
+
+    if (req.user.id !== usuario1 && req.user.id !== usuario2) {
+        return res
+            .status(400)
+            .json({ msg: "Não foi possível retornar a proposta", body: {} });
+    }
+
+    const dono = await UsuarioModel.findAll({
+        attributes: ["nome"],
+        include: [
+            {
+                model: Avatar,
+                attributes: ["img_path"],
+            },
+            {
+                model: PropostaDeTroca,
+                as: "propostaRecebidaID",
+                where: {
+                    id: propostaId,
+                },
+                include: [
+                    {
+                        model: PropostaProdutos,
+                        attributes: ["id"],
+                        include: [
+                            {
+                                model: ProductModel,
+                                as: "produtosRequisitadosID",
+                                attributes: ["id", "nome"],
+                                include: [
+                                    {
+                                        model: ImagensProduto,
+                                        as: "produtoImg",
+                                        attributes: ["id", "img_path"],
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                ],
+            },
+        ],
+        where: { id: usuario1 },
+    });
+
+    let filtrarUsuario1 = dono[0];
+
+    let filtrarProduto1 =
+        filtrarUsuario1.propostaRecebidaID[0].proposta_produtos[0]
+            .produtosRequisitadosID;
+
+    const produto1 = {
+        id: filtrarProduto1.id,
+        nome: filtrarProduto1.nome,
+        imagem: {
+            src: filtrarProduto1.produtoImg[0].img_path,
+        },
+    };
+
+    const requisitado = {
+        nome: filtrarUsuario1.nome,
+        avatar: filtrarUsuario1.avatar.img_path,
+        produtos: [produto1],
+    };
+
+    console.log(requisitado);
+
+    const interessado = await UsuarioModel.findAll({
+        attributes: ["nome"],
+        include: [
+            {
+                model: Avatar,
+                attributes: ["img_path"],
+            },
+            {
+                model: PropostaDeTroca,
+                as: "propostaEfetuadaID",
+                where: {
+                    id: propostaId,
+                },
+                include: [
+                    {
+                        model: PropostaProdutos,
+                        attributes: ["id"],
+                        include: [
+                            {
+                                model: ProductModel,
+                                as: "produtosOferecidosID",
+                                attributes: ["id", "nome"],
+                                include: [
+                                    {
+                                        model: ImagensProduto,
+                                        as: "produtoImg",
+                                        attributes: ["id", "img_path"],
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                ],
+            },
+        ],
+        where: { id: usuario2 },
+    });
+
+    let filtrarUsuario2 = interessado[0];
+
+    let filtrarProduto2 =
+        filtrarUsuario2.propostaEfetuadaID[0].proposta_produtos.map(
+            (produto) => {
+                const produtoDV = produto.produtosOferecidosID;
+
+                return {
+                    id: produtoDV.id,
+                    nome: produtoDV.nome,
+                    imagem: {
+                        src: produtoDV.produtoImg[0].img_path,
+                    },
+                };
+            }
+        );
+
+    const requisitante = {
+        nome: filtrarUsuario2.nome,
+        avatar: filtrarUsuario2.avatar.img_path,
+        produtos: filtrarProduto2,
+    };
+
+    console.log(requisitante);
+
+    return res.status(200).json({
+        msg: "success",
+        data: { requisitado: requisitado, requisitante: requisitante },
     });
 };
 
@@ -651,4 +813,5 @@ module.exports = {
     gerenciarInfoDataChat,
     gerenciarInfoDataChatPost,
     gerenciarUsuarioUpdateAvatar,
+    gerenciarInfoDataProposta,
 };

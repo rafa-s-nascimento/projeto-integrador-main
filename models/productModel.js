@@ -58,7 +58,8 @@ const Produto = sequelize.define(
 );
 
 // cria a tabela se ela não existe
-// Produto.sync();
+
+Produto.sync();
 
 // indica que a tabela produtos tem uma restrição a tabela usuario
 

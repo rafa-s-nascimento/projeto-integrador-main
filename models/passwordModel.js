@@ -22,6 +22,6 @@ const Password = sequelize.define(
     { tableName: "usuario_password", timestamps: false }
 );
 
-// Password.sync();
+Password.sync();
 
 module.exports = Password;

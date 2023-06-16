@@ -18,6 +18,6 @@ const ValoresInput = sequelize.define(
     { tableName: "valores_input_produto", timestamps: false }
 );
 
-// ValoresInput.sync();
+ValoresInput.sync();
 
 module.exports = ValoresInput;

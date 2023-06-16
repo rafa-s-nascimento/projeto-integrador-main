@@ -60,7 +60,7 @@
     position: absolute;
     /* max-width: 400px; */
     /* height: 500px; */
-    background-color: var(--blue-color2);
+    background-color: var(--yellow-color);
     padding: 0.25rem;
     z-index: -9999;
     opacity: 0;
@@ -78,7 +78,7 @@
     grid-template-columns: 1fr 1fr 1fr 1fr;
     max-width: 400px;
     width: auto;
-    background-color: var(--gray-color);
+    background-color: var(--black-color);
     border-radius: 0.5rem;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
@@ -123,12 +123,37 @@
 }
 .usuario-avatars-btn {
     padding: 0.25rem 1rem;
-    border: 1px solid black;
+    /* border: 1px solid black; */
     cursor: pointer;
     min-width: 90px;
     text-align: center;
+    color: var(--white-color);
+}
+
+.usuario-avatars-btn:hover {
+    background-color: var(--black-color);
+    color: var(--white-color);
 }
 
 .usuario-avatar-single-img-container.selected::before {
     background-color: rgba(0, 0, 0, 0);
+}
+
+.bg-green {
+    background-color: var(--green-color);
+}
+.c-green {
+    color: var(--green-color);
+}
+.c-yellow {
+    color: var(--yellow-color);
+}
+.bg-red {
+    background-color: var(--red-color);
+}
+.c-orange {
+    color: var(--oragen-color);
+}
+.c-red {
+    color: var(--red-color);
 }

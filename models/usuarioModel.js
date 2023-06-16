@@ -28,7 +28,7 @@ const Usuario = sequelize.define(
     { tableName: "usuario", timestamps: false }
 );
 
-// Usuario.sync();
+Usuario.sync();
 
 Usuario.hasOne(Password, {
     foreignKey: "usuario_id",

@@ -1,3 +1,5 @@
+import { ajustes } from "./comum.js";
+
 export const gerenciarUsuario = (data) => {
     const usuarioContainer = document.querySelector(".usuario-content");
     const usuario = new Usuario(usuarioContainer, data);
@@ -257,7 +259,7 @@ class Avatar {
         div2.classList.add("usuario-avatars-btn-container");
 
         const span1 = document.createElement("span");
-        span1.classList.add("usuario-avatars-btn", "salvar");
+        span1.classList.add("usuario-avatars-btn", "salvar", "bg-green");
         span1.textContent = "salvar";
 
         span1.addEventListener("click", () => {
@@ -265,7 +267,7 @@ class Avatar {
         });
 
         const span2 = document.createElement("span");
-        span2.classList.add("usuario-avatars-btn", "retornar");
+        span2.classList.add("usuario-avatars-btn", "retornar", "bg-red");
         span2.textContent = "retornar";
 
         span2.addEventListener("click", () => {

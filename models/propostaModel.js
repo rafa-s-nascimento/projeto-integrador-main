@@ -1,3 +1,4 @@
+const { NOW } = require("sequelize");
 const { sequelize, DataTypes } = require("../db/connect");
 const Usuario = require("./usuarioModel");
 
@@ -20,24 +21,34 @@ const PropostaDeTroca = sequelize.define(
         },
         data_proposta: {
             type: DataTypes.DATE,
+            allowNull: false,
+            defaultValue: DataTypes.NOW,
         },
         proposta_aceita: {
             type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: 0,
         },
         proposta_ativa: {
             type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: 1,
         },
         proposta_recusada: {
             type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: 0,
         },
         proposta_cancelada: {
             type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: 0,
         },
     },
     { tableName: "proposta_troca", timestamps: false }
 );
 
-// PropostaDeTroca.sync();
+PropostaDeTroca.sync();
 
 PropostaDeTroca.belongsTo(Usuario, {
     constraint: true,

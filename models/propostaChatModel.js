@@ -38,7 +38,7 @@ const PropostaChat = sequelize.define(
     { timestamps: false }
 );
 
-// PropostaChat.sync();
+PropostaChat.sync();
 
 // relação com propota
 PropostaChat.belongsTo(Proposta, {

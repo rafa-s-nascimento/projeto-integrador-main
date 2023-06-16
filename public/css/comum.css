@@ -17,6 +17,9 @@
     --black-color2: #222222;
     --white-color: #ffffff;
     --red-color: #ff0055;
+    --green-color: #8bbf9f;
+    --green-color2: #8bff9f;
+    --orage-color: #fca001;
 }
 
 html {
@@ -50,6 +53,28 @@ a:visited {
 }
 ul {
     list-style: none;
+}
+
+.bg-green {
+    background-color: var(--green-color);
+}
+.c-green {
+    color: var(--green-color);
+}
+.c-green2 {
+    color: var(--green-color2);
+}
+.c-yellow {
+    color: var(--yellow-color);
+}
+.bg-red {
+    background-color: var(--red-color);
+}
+.c-orange {
+    color: var(--orage-color) !important;
+}
+.c-red {
+    color: var(--red-color);
 }
 .titulo {
     text-transform: capitalize;

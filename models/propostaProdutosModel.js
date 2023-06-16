@@ -29,7 +29,7 @@ const PropostaProdutos = sequelize.define(
     { tableName: "proposta_produtos", timestamps: false }
 );
 
-// PropostaProdutos.sync();
+PropostaProdutos.sync();
 
 PropostaProdutos.belongsTo(Proposta, {
     constraint: true,

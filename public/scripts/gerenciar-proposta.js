@@ -41,6 +41,7 @@ class PropostaProduto {
     }
 
     setHtmlStatus() {
+        this.statusGeralHtml.classList.add("c-green2");
         this.statusGeralHtml.textContent = this.statusGeral;
     }
     setStatus(status) {
@@ -151,7 +152,12 @@ class PropostaProduto {
             this.setStatus("em negociação");
             this.setHtmlStatus();
             this.bloquearPropostas();
+            chatBtn1.classList.add("c-yellow");
         }
+
+        this.statusGeralHtml.classList.add(
+            this.statusGeral === "em negociação" ? "c-green2" : "c-green"
+        );
 
         article.appendChild(divInfo);
         article.appendChild(containerProposta);
@@ -198,7 +204,16 @@ class Proposta {
     }
 
     setHtmlStatus() {
-        this.statusHmtl.textContent = "status: " + this.status;
+        this.statusHmtl.firstElementChild.textContent = this.status;
+
+        if (this.status == "aceita") {
+            this.statusHmtl.firstElementChild.classList.remove("c-green");
+            this.statusHmtl.firstElementChild.classList.add("c-green2");
+        }
+        if (this.status == "cancelada") {
+            this.statusHmtl.firstElementChild.classList.remove("c-green");
+            this.statusHmtl.firstElementChild.classList.add("c-red");
+        }
     }
     setStatus(status) {
         this.status = status;
@@ -214,8 +229,44 @@ class Proposta {
             );
         }
     }
-    exibir_proposta() {
+    async exibir_proposta() {
         console.log("exibindo proposta" + this.id);
+        console.log("proposta ativa ?" + this.status);
+        const modal = document.querySelector(".chat-container");
+
+        try {
+            const response = await fetch(
+                `http://localhost:5000/gerenciar/minha-conta/data/proposta/${this.id}`
+            );
+
+            if (!response.status === 200) {
+                const { msg } = await response.json();
+
+                throw new Error(msg);
+            }
+
+            const { data } = await response.json();
+
+            const nodeElement = this.visualizarPropostaNode(data);
+            modal.appendChild(nodeElement);
+        } catch (error) {
+            console.log(error);
+        }
+
+        console.log(
+            "O(s) produto(s) " +
+                this.id_produtos_oferecidos +
+                " foram oferecidos em troca do produto " +
+                this.id_produto_requisitado
+        );
+
+        modal.classList.add("show-chat");
+    }
+
+    fechar_exibir_proposta() {
+        const modal = document.querySelector(".chat-container");
+        modal.classList.remove("show-chat");
+        modal.removeChild(modal.lastChild);
     }
 
     async aceitar_proposta() {
@@ -306,6 +357,8 @@ class Proposta {
     }
 
     criarNode() {
+        console.log(this.status);
+
         const article = document.createElement("article");
         article.setAttribute("data-id", this.id);
         article.classList.add("proposta-individual-produto");
@@ -320,6 +373,10 @@ class Proposta {
         verProposta.appendChild(br);
         verProposta.innerHTML += "visualizar";
 
+        this.exibir_proposta = this.exibir_proposta.bind(this);
+        if (this.status === "ativa" || this.status === "aceita") {
+            verProposta.addEventListener("click", this.exibir_proposta);
+        }
         article.appendChild(verProposta);
 
         const statusProposta = document.createElement("span");
@@ -327,8 +384,24 @@ class Proposta {
             "proposta-individual-produto-status-proposta"
         );
 
+        const statusProposta2 = document.createElement("span");
+        statusProposta2.classList.add(
+            this.status == "ativa"
+                ? "c-green"
+                : this.status == "aceita"
+                ? "c-green2"
+                : "c-red"
+        );
+
+        const statusPropostaTex = document.createTextNode("status: ");
+        const statusPropostaTex2 = document.createTextNode(this.status);
+        statusProposta2.appendChild(statusPropostaTex2);
+
+        statusProposta.appendChild(statusPropostaTex);
+        statusProposta.appendChild(statusProposta2);
+
         this.statusHmtl = statusProposta;
-        this.statusHmtl.textContent = "status: " + this.status;
+
         article.appendChild(statusProposta);
 
         const dataProposta = document.createElement("span");
@@ -377,10 +450,6 @@ class Proposta {
                 this.recusar_proposta
             );
         }
-        this.exibir_proposta = this.exibir_proposta.bind(this);
-        if (this.status === "ativa") {
-            verProposta.addEventListener("click", this.exibir_proposta);
-        }
 
         const aceitarBtn = document.createElement("button");
         this.aceitaBtnHtml = aceitarBtn;
@@ -398,6 +467,236 @@ class Proposta {
         article.appendChild(containerDecisaoBtn);
 
         return article;
+    }
+
+    visualizarPropostaNode(proposta_obj) {
+        console.log(proposta_obj);
+
+        const divCenter = document.createElement("div");
+        divCenter.className = "proposta-detalhe-center";
+
+        const spanCloseBtn = document.createElement("span");
+        spanCloseBtn.className = "proposta-detalhe-close-btn";
+        const iconTimes = document.createElement("i");
+        iconTimes.className = "fas fa-times";
+        spanCloseBtn.appendChild(iconTimes);
+        spanCloseBtn.addEventListener("click", this.fechar_exibir_proposta);
+        divCenter.appendChild(spanCloseBtn);
+
+        const divContainer = document.createElement("div");
+        divContainer.className = "proposta-detalhe-container";
+
+        const divProduto = document.createElement("div");
+        divProduto.className = "proposta-detalhe-produto";
+
+        const divUsuario1 = document.createElement("div");
+        divUsuario1.className = "proposta-detalhe-usuario usuario1";
+
+        const divUsuarioImgContainer1 = document.createElement("div");
+        divUsuarioImgContainer1.className =
+            "proposta-detalhe-usuario-img-container";
+
+        const imgAvatar1 = document.createElement("img");
+        imgAvatar1.src = proposta_obj.requisitado.avatar;
+        imgAvatar1.alt = "avatar";
+
+        // Adiciona o elemento <img> dentro do elemento <div>
+        divUsuarioImgContainer1.appendChild(imgAvatar1);
+
+        // Adiciona o elemento <div> dentro do elemento <div>
+        divUsuario1.appendChild(divUsuarioImgContainer1);
+
+        // Cria o elemento <p> com o texto 'Lorem, ipsum dolor.'
+        const pLoremIpsum1 = document.createElement("p");
+        pLoremIpsum1.textContent = proposta_obj.requisitado.nome;
+
+        // Adiciona o elemento <p> dentro do elemento <div>
+        divUsuario1.appendChild(pLoremIpsum1);
+
+        // Adiciona o elemento <div> dentro do elemento <div>
+        divProduto.appendChild(divUsuario1);
+
+        // Cria o elemento <div> com a classe 'proposta-detalhe-produtos-c p-desejados'
+        const divProdutosDesejados = document.createElement("div");
+        divProdutosDesejados.className =
+            "proposta-detalhe-produtos-c p-desejados";
+
+        // Cria o elemento <article> com a classe 'proposta-detalhe-produto-single-product'
+        const articleProduto = document.createElement("article");
+        articleProduto.className = "proposta-detalhe-produto-single-product";
+
+        // Cria o elemento <div> com a classe 'proposta-detalhe-produto-single-product-img-container'
+        const divProdutoImgContainer = document.createElement("div");
+        divProdutoImgContainer.className =
+            "proposta-detalhe-produto-single-product-img-container";
+
+        // Cria o elemento <img> com o atributo 'src' definido como './img/avatar1.png'
+        const imgProduto = document.createElement("img");
+        imgProduto.src = proposta_obj.requisitado.produtos[0].imagem.src;
+        imgProduto.alt = "";
+        imgProduto.className = "proposta-detalhe-produto-single-product-img";
+
+        // Adiciona o elemento <img> dentro do elemento <div>
+        divProdutoImgContainer.appendChild(imgProduto);
+
+        // Cria o elemento <div> com a classe 'proposta-detalhe-produto-single-product-info-container'
+        const divProdutoInfoContainer = document.createElement("div");
+        divProdutoInfoContainer.className =
+            "proposta-detalhe-produto-single-product-info-container";
+
+        // Cria o elemento <p> com o texto 'Lorem, ipsum dolor.'
+        const pLoremIpsum2 = document.createElement("p");
+        pLoremIpsum2.textContent = proposta_obj.requisitado.produtos[0].nome;
+
+        // Adiciona o elemento <p> dentro do elemento <div>
+        divProdutoInfoContainer.appendChild(pLoremIpsum2);
+
+        // Cria o elemento <span> com o texto 'Ver produto'
+
+        const aVerProduto = document.createElement("a");
+        aVerProduto.href = `http://localhost:5000/detalhe-produto.html?id=${proposta_obj.requisitado.produtos[0].id}`;
+        aVerProduto.setAttribute("target", "_blank");
+
+        const spanVerProduto = document.createElement("span");
+        spanVerProduto.textContent = "Ver produto";
+
+        aVerProduto.appendChild(spanVerProduto);
+        // Adiciona o elemento <span> dentro do elemento <div>
+        divProdutoInfoContainer.appendChild(aVerProduto);
+
+        // Adiciona o elemento <div> dentro do elemento <article>
+        articleProduto.appendChild(divProdutoImgContainer);
+        articleProduto.appendChild(divProdutoInfoContainer);
+
+        // Adiciona o elemento <article> dentro do elemento <div>
+        divProdutosDesejados.appendChild(articleProduto);
+
+        // Adiciona o elemento <div> dentro do elemento <div>
+        divProduto.appendChild(divProdutosDesejados);
+
+        // Adiciona o elemento <div> dentro do elemento <div>
+        divContainer.appendChild(divProduto);
+
+        // Cria o elemento <div> com a classe 'troca-img-container'
+        const divTrocaImgContainer = document.createElement("div");
+        divTrocaImgContainer.className = "troca-img-container";
+
+        // Cria o elemento <img> com o atributo 'src' definido como './img/trocaTransparente.png'
+        const imgTroca = document.createElement("img");
+        imgTroca.src = "./img/trocaTransparente.png";
+        imgTroca.alt = "";
+        imgTroca.className = "troca-img";
+
+        // Adiciona o elemento <img> dentro do elemento <div>
+        divTrocaImgContainer.appendChild(imgTroca);
+
+        // Adiciona o elemento <div> dentro do elemento <div>
+        divContainer.appendChild(divTrocaImgContainer);
+
+        // Cria o elemento <div> com a classe 'proposta-detalhe-produto'
+        const divProduto2 = document.createElement("div");
+        divProduto2.className = "proposta-detalhe-produto";
+
+        // Cria o elemento <div> com a classe 'proposta-detalhe-usuario usuario2'
+        const divUsuario2 = document.createElement("div");
+        divUsuario2.className = "proposta-detalhe-usuario usuario2";
+
+        // Cria o elemento <div> com a classe 'proposta-detalhe-usuario-img-container'
+        const divUsuarioImgContainer2 = document.createElement("div");
+        divUsuarioImgContainer2.className =
+            "proposta-detalhe-usuario-img-container";
+
+        // Cria o elemento <img> com o atributo 'src' definido como './img/avatar1.png'
+        const imgAvatar2 = document.createElement("img");
+        imgAvatar2.src = proposta_obj.requisitante.avatar;
+        imgAvatar2.alt = "";
+
+        // Adiciona o elemento <img> dentro do elemento <div>
+        divUsuarioImgContainer2.appendChild(imgAvatar2);
+
+        // Adiciona o elemento <div> dentro do elemento <div>
+        divUsuario2.appendChild(divUsuarioImgContainer2);
+
+        // Cria o elemento <p> com o texto 'Lorem, ipsum dolor.'
+        const pLoremIpsum3 = document.createElement("p");
+        pLoremIpsum3.textContent = proposta_obj.requisitante.nome;
+
+        // Adiciona o elemento <p> dentro do elemento <div>
+        divUsuario2.appendChild(pLoremIpsum3);
+
+        // Adiciona o elemento <div> dentro do elemento <div>
+        divProduto2.appendChild(divUsuario2);
+
+        // Cria o elemento <div> com a classe 'proposta-detalhe-produtos-c p-oferecido'
+        const divProdutosOferecidos = document.createElement("div");
+        divProdutosOferecidos.className =
+            "proposta-detalhe-produtos-c p-oferecido";
+
+        for (let i = 0; i < proposta_obj.requisitante.produtos.length; i++) {
+            let articleProdutoTemp = document.createElement("article");
+            articleProdutoTemp.className =
+                "proposta-detalhe-produto-single-product";
+
+            // Cria o elemento <div> com a classe 'proposta-detalhe-produto-single-product-img-container'
+            const divProdutoImgContainer = document.createElement("div");
+            divProdutoImgContainer.className =
+                "proposta-detalhe-produto-single-product-img-container";
+
+            // Cria o elemento <img> com o atributo 'src' definido como './img/avatar1.png'
+            const imgProduto = document.createElement("img");
+            imgProduto.src = proposta_obj.requisitante.produtos[i].imagem.src;
+            imgProduto.alt = "";
+            imgProduto.className =
+                "proposta-detalhe-produto-single-product-img";
+
+            // Adiciona o elemento <img> dentro do elemento <div>
+            divProdutoImgContainer.appendChild(imgProduto);
+
+            // Cria o elemento <div> com a classe 'proposta-detalhe-produto-single-product-info-container'
+            const divProdutoInfoContainer = document.createElement("div");
+            divProdutoInfoContainer.className =
+                "proposta-detalhe-produto-single-product-info-container";
+
+            // Cria o elemento <p> com o texto 'Lorem, ipsum dolor.'
+            const pLoremIpsum2 = document.createElement("p");
+            pLoremIpsum2.textContent =
+                proposta_obj.requisitante.produtos[i].nome;
+
+            // Adiciona o elemento <p> dentro do elemento <div>
+            divProdutoInfoContainer.appendChild(pLoremIpsum2);
+
+            // Cria o elemento <span> com o texto 'Ver produto'
+
+            const aVerProduto = document.createElement("a");
+            aVerProduto.href = `http://localhost:5000/detalhe-produto.html?id=${proposta_obj.requisitante.produtos[i].id}`;
+            aVerProduto.setAttribute("target", "_blank");
+
+            const spanVerProduto = document.createElement("span");
+            spanVerProduto.textContent = "Ver produto";
+
+            aVerProduto.appendChild(spanVerProduto);
+            // Adiciona o elemento <span> dentro do elemento <div>
+            divProdutoInfoContainer.appendChild(aVerProduto);
+
+            // Adiciona o elemento <div> dentro do elemento <article>
+            articleProdutoTemp.appendChild(divProdutoImgContainer);
+            articleProdutoTemp.appendChild(divProdutoInfoContainer);
+
+            // Adiciona o elemento <article> dentro do elemento <div>
+            divProdutosOferecidos.appendChild(articleProdutoTemp);
+        }
+
+        // Adiciona o elemento <div> dentro do elemento <div>
+        divProduto2.appendChild(divProdutosOferecidos);
+
+        // Adiciona o elemento <div> dentro do elemento <div>
+        divContainer.appendChild(divProduto2);
+
+        // Adiciona o elemento <div> dentro do elemento <div>
+        divCenter.appendChild(divContainer);
+
+        // Agora você pode adicionar o elemento <div> criado ao documento onde desejar.
+        return divCenter;
     }
 }
 
@@ -439,12 +738,6 @@ class Chat {
 
         chatContainer.classList.add("show-chat");
         console.log("abrindo chat");
-
-        // adicionar a classw show no chat
-        // mandar requisição com o número da proposta,
-        // verificar o id de quem ta enviando
-        // retornar esse id
-        // todas as mensagens com o usuarioId ficarão a direita.
     }
 
     renderMessages(obj_messages) {

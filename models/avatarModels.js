@@ -17,6 +17,6 @@ const Avatar = sequelize.define(
     { tableName: "avatar", timestamps: false }
 );
 
-// Avatar.sync();
+Avatar.sync();
 
 module.exports = Avatar;

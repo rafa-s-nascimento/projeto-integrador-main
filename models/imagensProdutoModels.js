@@ -23,7 +23,7 @@ const ImagensProduto = sequelize.define(
     { tableName: "imagens_produto", timestamps: false }
 );
 
-// ImagensProduto.sync();
+ImagensProduto.sync();
 
 Produto.hasMany(ImagensProduto, {
     foreignKey: "produto_id",

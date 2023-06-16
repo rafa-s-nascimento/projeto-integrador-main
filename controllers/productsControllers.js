@@ -43,6 +43,7 @@ const getProducts = async (req, res) => {
         ],
         limit: limit,
         where: { visivel: 1, disponivel: 1 },
+        order: [["id", "DESC"]],
     });
 
     const result = selectProducts.map((produto) => {
